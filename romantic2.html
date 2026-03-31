@@ -346,6 +346,90 @@
             });
         }, { threshold: 0.15 });
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Random scatter on every load
+        const photos = [
+            'photos/IMG-20260311-WA0000.jpg',
+            'photos/IMG-20260311-WA0001.jpg',
+            'photos/IMG-20260311-WA0002.jpg',
+            'photos/IMG-20260311-WA0003.jpg',
+            'photos/IMG-20260311-WA0004.jpg',
+            'photos/IMG-20260311-WA0005.jpg'
+        ];
+
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function rand(min, max) {
+            return min + Math.random() * (max - min);
+        }
+
+        const isMobile = window.innerWidth <= 768;
+
+        if (!isMobile) {
+            // Desktop: 6 photos in .scattered, placed in a 3x2 zone grid
+            const zones = [
+                { top: [0, 20],  left: [2, 25] },   // top-left
+                { top: [0, 18],  left: [30, 55] },   // top-center
+                { top: [2, 22],  left: [62, 88] },   // top-right
+                { top: [48, 72], left: [0, 24] },    // bottom-left
+                { top: [50, 70], left: [28, 56] },   // bottom-center
+                { top: [46, 68], left: [60, 86] },   // bottom-right
+            ];
+            const shuffled = shuffle(photos);
+            const zOrder = shuffle([1, 2, 3, 4, 5, 6]);
+            const polaroids = document.querySelectorAll('.scattered .polaroid');
+
+            polaroids.forEach((el, i) => {
+                const zone = zones[i];
+                el.querySelector('img').src = shuffled[i];
+                el.style.top = rand(zone.top[0], zone.top[1]) + '%';
+                el.style.left = rand(zone.left[0], zone.left[1]) + '%';
+                el.style.right = 'auto';
+                el.style.bottom = 'auto';
+                el.style.transform = 'rotate(' + rand(-14, 14).toFixed(1) + 'deg)';
+                el.style.zIndex = zOrder[i];
+            });
+        } else {
+            // Mobile: 3 photos in .photos-top, 3 in .photos-bottom
+            const shuffled = shuffle(photos);
+            const topSlots = [
+                { top: [4, 12], left: [1, 18] },
+                { top: [2, 10], left: [30, 50] },
+                { top: [5, 14], left: [58, 78] },
+            ];
+            const botSlots = [
+                { top: [4, 12], left: [1, 18] },
+                { top: [2, 10], left: [30, 50] },
+                { top: [5, 14], left: [58, 78] },
+            ];
+
+            document.querySelectorAll('.photos-top .polaroid').forEach((el, i) => {
+                const slot = topSlots[i];
+                el.querySelector('img').src = shuffled[i];
+                el.style.top = rand(slot.top[0], slot.top[1]) + '%';
+                el.style.left = rand(slot.left[0], slot.left[1]) + '%';
+                el.style.right = 'auto';
+                el.style.transform = 'rotate(' + rand(-10, 10).toFixed(1) + 'deg)';
+                el.style.zIndex = Math.floor(rand(1, 4));
+            });
+
+            document.querySelectorAll('.photos-bottom .polaroid').forEach((el, i) => {
+                const slot = botSlots[i];
+                el.querySelector('img').src = shuffled[i + 3];
+                el.style.top = rand(slot.top[0], slot.top[1]) + '%';
+                el.style.left = rand(slot.left[0], slot.left[1]) + '%';
+                el.style.right = 'auto';
+                el.style.transform = 'rotate(' + rand(-10, 10).toFixed(1) + 'deg)';
+                el.style.zIndex = Math.floor(rand(1, 4));
+            });
+        }
     </script>
 
 </body>
