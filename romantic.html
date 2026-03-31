@@ -70,12 +70,12 @@
         .polaroid:nth-child(2) { z-index: 2; }
         .polaroid:nth-child(3) { z-index: 3; }
 
-        /* ── Pile positions ── */
-        .pile-1 { top: 3%;  left: 3%; }
-        .pile-2 { top: 2%;  right: 6%; }
-        .pile-3 { top: 36%; left: 5%; }
-        .pile-4 { top: 34%; right: 3%; }
-        .pile-5 { bottom: 6%; left: 50%; transform: translateX(-50%); }
+        /* ── Pile positions — centered behind content ── */
+        .pile-1 { top: 3%;  left: 50%; transform: translateX(-80%); }
+        .pile-2 { top: 5%;  left: 50%; transform: translateX(20%); }
+        .pile-3 { top: 32%; left: 50%; transform: translateX(-60%); }
+        .pile-4 { top: 35%; left: 50%; transform: translateX(40%); }
+        .pile-5 { bottom: 8%; left: 50%; transform: translateX(-50%); }
 
         /* Pile 1: top-left — 3 photos */
         .pile-1 .polaroid:nth-child(1) { --rot: 8deg;  top: 6px; left: 10px; }
@@ -235,11 +235,11 @@
             .header { padding: 4rem 1.5rem 2rem; }
             .glass-card { margin: 2rem 1rem; padding: 2rem 1.5rem; }
 
-            .pile-1 { top: 2%;  left: -2%; }
-            .pile-2 { top: 1%;  right: -1%; }
-            .pile-3 { top: 34%; left: -3%; }
-            .pile-4 { top: 32%; right: -2%; }
-            .pile-5 { bottom: 4%; }
+            .pile-1 { transform: translateX(-70%); }
+            .pile-2 { transform: translateX(10%); }
+            .pile-3 { transform: translateX(-50%); }
+            .pile-4 { transform: translateX(30%); }
+            .pile-5 { transform: translateX(-50%); }
         }
 
         @media (max-width: 480px) {
@@ -255,12 +255,11 @@
             .cta-wrap { padding: 1.5rem 1rem 4rem; }
             .cta-btn { padding: 1rem 2rem; }
 
-            /* Tuck piles further behind edges on small screens */
-            .pile-1 { left: -8%; }
-            .pile-2 { right: -6%; }
-            .pile-3 { left: -10%; }
-            .pile-4 { right: -8%; }
-            .pile-5 { bottom: 2%; }
+            .pile-1 { transform: translateX(-65%); }
+            .pile-2 { transform: translateX(5%); }
+            .pile-3 { transform: translateX(-45%); }
+            .pile-4 { transform: translateX(20%); }
+            .pile-5 { transform: translateX(-50%); }
         }
     </style>
 </head>
