@@ -132,7 +132,7 @@
          ═══════════════════════════════════════════ -->
     <style media="screen and (min-width: 769px)">
         /* Hide mobile photo sections on desktop */
-        .photos-top, .photos-bottom { display: none; }
+        .photos-row { display: none; }
 
         .scattered {
             position: fixed;
@@ -156,7 +156,7 @@
         .p5 { bottom: 8%;  left: 34%; transform: rotate(-5deg); z-index: 4; }
         .p6 { bottom: 2%;  right: 4%; transform: rotate(10deg); z-index: 2; }
 
-        .content, .content-lower {
+        .content, .content-mid, .content-lower {
             position: relative;
             z-index: 10;
         }
@@ -202,12 +202,12 @@
         /* Hide desktop scattered layer on mobile */
         .scattered { display: none; }
 
-        /* Shared photo cluster styles */
-        .photos-top, .photos-bottom {
+        /* Photo rows — 2 photos each, scattered within */
+        .photos-row {
             position: relative;
             width: 100%;
-            height: 42vh;
-            min-height: 260px;
+            height: 34vh;
+            min-height: 220px;
             overflow: hidden;
         }
 
@@ -216,21 +216,15 @@
             background: #fff;
             padding: 0.35rem 0.35rem 1.1rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05);
-            width: 38vw;
+            width: 42vw;
         }
 
-        /* Top cluster: 3 photos */
-        .m1 { top: 6%;   left: 3%;   transform: rotate(-6deg);  z-index: 2; }
-        .m2 { top: 4%;   left: 34%;  transform: rotate(4deg);   z-index: 3; }
-        .m3 { top: 8%;   right: 1%;  transform: rotate(-3deg);  z-index: 1; }
-
-        /* Bottom cluster: 3 photos */
-        .m4 { top: 6%;   left: 4%;   transform: rotate(5deg);   z-index: 1; }
-        .m5 { top: 3%;   left: 33%;  transform: rotate(-4deg);  z-index: 3; }
-        .m6 { top: 8%;   right: 2%;  transform: rotate(7deg);   z-index: 2; }
+        /* Left and right positions within each row */
+        .mr1, .mr3, .mr5 { top: 8%;  left: 3%;  }
+        .mr2, .mr4, .mr6 { top: 6%;  right: 3%; }
 
         /* Content */
-        .content, .content-lower {
+        .content, .content-mid, .content-lower {
             position: relative;
             z-index: 1;
         }
@@ -283,11 +277,10 @@
         <div class="polaroid p6"><img src="photos/IMG-20260311-WA0003.jpg" alt=""></div>
     </div>
 
-    <!-- Mobile: first 3 photos -->
-    <div class="photos-top">
-        <div class="polaroid m1"><img src="photos/IMG-20260311-WA0001.jpg" alt=""></div>
-        <div class="polaroid m2"><img src="photos/IMG-20260311-WA0002.jpg" alt=""></div>
-        <div class="polaroid m3"><img src="photos/IMG-20260311-WA0000.jpg" alt=""></div>
+    <!-- Mobile: 2 photos -->
+    <div class="photos-row photos-row-1">
+        <div class="polaroid mr1"><img src="photos/IMG-20260311-WA0001.jpg" alt=""></div>
+        <div class="polaroid mr2"><img src="photos/IMG-20260311-WA0002.jpg" alt=""></div>
     </div>
 
     <div class="content">
@@ -303,14 +296,13 @@
         <div class="leaf-divider">&hearts;</div>
     </div>
 
-    <!-- Mobile: second 3 photos -->
-    <div class="photos-bottom">
-        <div class="polaroid m4"><img src="photos/IMG-20260311-WA0005.jpg" alt=""></div>
-        <div class="polaroid m5"><img src="photos/IMG-20260311-WA0004.jpg" alt=""></div>
-        <div class="polaroid m6"><img src="photos/IMG-20260311-WA0003.jpg" alt=""></div>
+    <!-- Mobile: 2 photos -->
+    <div class="photos-row photos-row-2">
+        <div class="polaroid mr3"><img src="photos/IMG-20260311-WA0000.jpg" alt=""></div>
+        <div class="polaroid mr4"><img src="photos/IMG-20260311-WA0005.jpg" alt=""></div>
     </div>
 
-    <div class="content-lower">
+    <div class="content-mid">
         <div class="glass-card fade-in">
             <h2>Our Honeymoon Fund</h2>
             <p>
@@ -321,7 +313,15 @@
         </div>
 
         <div class="leaf-divider">&hearts;</div>
+    </div>
 
+    <!-- Mobile: 2 photos -->
+    <div class="photos-row photos-row-3">
+        <div class="polaroid mr5"><img src="photos/IMG-20260311-WA0004.jpg" alt=""></div>
+        <div class="polaroid mr6"><img src="photos/IMG-20260311-WA0003.jpg" alt=""></div>
+    </div>
+
+    <div class="content-lower">
         <div class="glass-card fade-in">
             <h2>Help Us Create New Adventures</h2>
             <p>
@@ -397,37 +397,23 @@
                 el.style.zIndex = zOrder[i];
             });
         } else {
-            // Mobile: 3 photos in .photos-top, 3 in .photos-bottom
+            // Mobile: 3 rows of 2 photos each
             const shuffled = shuffle(photos);
-            const topSlots = [
-                { top: [4, 12], left: [1, 18] },
-                { top: [2, 10], left: [30, 50] },
-                { top: [5, 14], left: [58, 78] },
-            ];
-            const botSlots = [
-                { top: [4, 12], left: [1, 18] },
-                { top: [2, 10], left: [30, 50] },
-                { top: [5, 14], left: [58, 78] },
+            const pairSlots = [
+                { top: [5, 15], left: [2, 15] },
+                { top: [4, 14], left: [52, 68] },
             ];
 
-            document.querySelectorAll('.photos-top .polaroid').forEach((el, i) => {
-                const slot = topSlots[i];
-                el.querySelector('img').src = shuffled[i];
-                el.style.top = rand(slot.top[0], slot.top[1]) + '%';
-                el.style.left = rand(slot.left[0], slot.left[1]) + '%';
-                el.style.right = 'auto';
-                el.style.transform = 'rotate(' + rand(-10, 10).toFixed(1) + 'deg)';
-                el.style.zIndex = Math.floor(rand(1, 4));
-            });
-
-            document.querySelectorAll('.photos-bottom .polaroid').forEach((el, i) => {
-                const slot = botSlots[i];
-                el.querySelector('img').src = shuffled[i + 3];
-                el.style.top = rand(slot.top[0], slot.top[1]) + '%';
-                el.style.left = rand(slot.left[0], slot.left[1]) + '%';
-                el.style.right = 'auto';
-                el.style.transform = 'rotate(' + rand(-10, 10).toFixed(1) + 'deg)';
-                el.style.zIndex = Math.floor(rand(1, 4));
+            document.querySelectorAll('.photos-row').forEach((row, ri) => {
+                row.querySelectorAll('.polaroid').forEach((el, i) => {
+                    const slot = pairSlots[i];
+                    el.querySelector('img').src = shuffled[ri * 2 + i];
+                    el.style.top = rand(slot.top[0], slot.top[1]) + '%';
+                    el.style.left = rand(slot.left[0], slot.left[1]) + '%';
+                    el.style.right = 'auto';
+                    el.style.transform = 'rotate(' + rand(-10, 10).toFixed(1) + 'deg)';
+                    el.style.zIndex = Math.floor(rand(1, 3));
+                });
             });
         }
     </script>
