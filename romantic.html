@@ -50,52 +50,56 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: top center;
             display: block;
         }
 
-        /* Large overlapping photos filling the viewport */
+        /* Large overlapping photos filling the viewport — portrait-friendly */
         .photo-1 {
-            width: 45vw; height: 38vh;
-            top: -3%; left: -5%;
+            width: 36vw; aspect-ratio: 3/4;
+            top: -5%; left: -3%;
             transform: rotate(-4deg);
             animation-delay: 0.1s !important;
             z-index: 1;
         }
         .photo-2 {
-            width: 40vw; height: 42vh;
-            top: -5%; right: -4%;
+            width: 34vw; aspect-ratio: 3/4;
+            top: -6%; right: -2%;
             transform: rotate(3deg);
             animation-delay: 0.25s !important;
             z-index: 2;
         }
         .photo-3 {
-            width: 38vw; height: 40vh;
-            top: 30%; left: 8%;
+            width: 32vw; aspect-ratio: 3/4;
+            top: 28%; left: 10%;
             transform: rotate(5deg);
             animation-delay: 0.4s !important;
             z-index: 3;
         }
         .photo-4 {
-            width: 42vw; height: 36vh;
-            top: 28%; right: 2%;
+            width: 35vw; aspect-ratio: 3/4;
+            top: 26%; right: 5%;
             transform: rotate(-3deg);
             animation-delay: 0.55s !important;
             z-index: 2;
         }
         .photo-5 {
-            width: 44vw; height: 44vh;
-            bottom: -6%; left: -3%;
+            width: 36vw; aspect-ratio: 3/4;
+            bottom: -8%; left: -1%;
             transform: rotate(-6deg);
             animation-delay: 0.7s !important;
             z-index: 1;
         }
         .photo-6 {
-            width: 40vw; height: 38vh;
-            bottom: -4%; right: -2%;
+            width: 33vw; aspect-ratio: 3/4;
+            bottom: -6%; right: 0%;
             transform: rotate(4deg);
             animation-delay: 0.85s !important;
             z-index: 2;
         }
+
+        /* WA0004 (kiss) is landscape — override aspect ratio */
+        .photo-3 { aspect-ratio: 4/3; }
 
         @keyframes fadeIn {
             0%   { opacity: 0; transform: scale(0.96) var(--final-rotate, rotate(0deg)); }
@@ -241,13 +245,12 @@
                 margin: 2rem 1rem;
                 padding: 2rem 1.5rem;
             }
-            /* Photos still fill background but scale slightly */
-            .photo-1 { width: 55vw; height: 32vh; }
-            .photo-2 { width: 50vw; height: 35vh; }
-            .photo-3 { width: 48vw; height: 34vh; }
-            .photo-4 { width: 52vw; height: 30vh; }
-            .photo-5 { width: 54vw; height: 36vh; }
-            .photo-6 { width: 50vw; height: 32vh; }
+            .photo-1 { width: 45vw; }
+            .photo-2 { width: 42vw; }
+            .photo-3 { width: 40vw; }
+            .photo-4 { width: 44vw; }
+            .photo-5 { width: 46vw; }
+            .photo-6 { width: 42vw; }
         }
 
         @media (max-width: 480px) {
@@ -261,13 +264,12 @@
             }
             .cta-wrap { padding: 1.5rem 1rem 4rem; }
             .cta-btn { padding: 1rem 2rem; }
-            /* Even larger overlap on small screens for full coverage */
-            .photo-1 { width: 70vw; height: 30vh; }
-            .photo-2 { width: 65vw; height: 32vh; }
-            .photo-3 { width: 60vw; height: 30vh; left: 15%; }
-            .photo-4 { width: 65vw; height: 28vh; }
-            .photo-5 { width: 70vw; height: 34vh; }
-            .photo-6 { width: 65vw; height: 30vh; }
+            .photo-1 { width: 55vw; }
+            .photo-2 { width: 52vw; }
+            .photo-3 { width: 50vw; left: 15%; }
+            .photo-4 { width: 54vw; }
+            .photo-5 { width: 56vw; }
+            .photo-6 { width: 52vw; }
         }
     </style>
 </head>
