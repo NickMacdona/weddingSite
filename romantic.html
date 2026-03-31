@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Honeymoon Fund</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --blush: #F2E0E0;
+            --blush-deep: #D4A0A0;
+            --sage: #A8B5A2;
+            --sage-deep: #7A8C73;
+            --cream: #FDF9F6;
+            --text: #4A4545;
+            --text-light: #7A7272;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Decorative background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -30%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(168, 181, 162, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -40%;
+            left: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(242, 224, 224, 0.25) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+        }
+
+        .header p.prelude {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: var(--sage-deep);
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            line-height: 1.1;
+            color: var(--text);
+        }
+
+        .header h1 span {
+            display: block;
+            font-style: italic;
+            font-size: 0.5em;
+            color: var(--blush-deep);
+            margin: 0.2em 0;
+        }
+
+        .leaf-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem auto;
+            color: var(--sage);
+            font-size: 1.5rem;
+        }
+
+        .leaf-divider::before,
+        .leaf-divider::after {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: var(--sage);
+            opacity: 0.5;
+        }
+
+        /* Polaroid photos */
+        .polaroids {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .polaroid {
+            background: #fff;
+            padding: 0.8rem 0.8rem 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+            transition: transform 0.4s ease;
+            width: clamp(150px, 30vw, 220px);
+        }
+
+        .polaroid:nth-child(1) { transform: rotate(-3deg); }
+        .polaroid:nth-child(2) { transform: rotate(2deg); margin-top: 1.5rem; }
+        .polaroid:nth-child(3) { transform: rotate(-1.5deg); }
+        .polaroid:nth-child(4) { transform: rotate(3deg); margin-top: 1rem; }
+        .polaroid:nth-child(5) { transform: rotate(-2deg); margin-top: 2rem; }
+        .polaroid:nth-child(6) { transform: rotate(1deg); }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05) !important;
+            z-index: 2;
+        }
+
+        .polaroid img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            display: block;
+        }
+
+        .polaroid .caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            text-align: center;
+            padding-top: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Message section */
+        .message {
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .message h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .message p {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* CTA Button */
+        .cta-wrap {
+            text-align: center;
+            padding: 2rem 2rem 5rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--sage-deep) 100%);
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 181, 162, 0.35);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(168, 181, 162, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Fade animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            .polaroids { gap: 1rem; }
+            .polaroid { width: clamp(120px, 42vw, 180px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header fade-in">
+        <p class="prelude">together is our favourite place to be</p>
+        <h1>
+            Name
+            <span>&</span>
+            Name
+        </h1>
+    </div>
+
+    <div class="leaf-divider">&hearts;</div>
+
+    <div class="message fade-in">
+        <h2>Our Honeymoon Fund</h2>
+        <p>
+            We feel so lucky to have you celebrating with us. Your love and presence
+            mean the world. If you would like to give a gift, a contribution towards
+            our honeymoon would be a dream come true.
+        </p>
+    </div>
+
+    <div class="polaroids fade-in">
+        <div class="polaroid">
+            <img src="photos/IMG-20260311-WA0001.jpg" alt="Us">
+            <div class="caption">always smiling</div>
+        </div>
+        <div class="polaroid">
+            <img src="photos/IMG-20260311-WA0002.jpg" alt="Travel">
+            <div class="caption">exploring together</div>
+        </div>
+        <div class="polaroid">
+            <img src="photos/IMG-20260311-WA0004.jpg" alt="Evening">
+            <div class="caption">evening lights</div>
+        </div>
+        <div class="polaroid">
+            <img src="photos/IMG-20260311-WA0005.jpg" alt="Chateau">
+            <div class="caption">adventures await</div>
+        </div>
+        <div class="polaroid">
+            <img src="photos/IMG-20260311-WA0003.jpg" alt="Night">
+            <div class="caption">city nights</div>
+        </div>
+        <div class="polaroid">
+            <img src="photos/IMG-20260311-WA0000.jpg" alt="Memories">
+            <div class="caption">our memories</div>
+        </div>
+    </div>
+
+    <div class="leaf-divider">&hearts;</div>
+
+    <div class="message fade-in">
+        <h2>Help Us Create New Adventures</h2>
+        <p>
+            From wandering cobblestone streets to watching sunsets over new horizons,
+            your generosity will help us create beautiful memories to last a lifetime.
+        </p>
+    </div>
+
+    <div class="cta-wrap fade-in">
+        <a href="https://paypal.me/placeholder" class="cta-btn">Contribute to Our Honeymoon</a>
+    </div>
+
+    <footer>
+        <p>With all our love &mdash; Name & Name</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>

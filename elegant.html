@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Honeymoon Fund</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream: #FFFEF7;
+            --gold: #C9A96E;
+            --gold-light: #E8D5A8;
+            --text: #3A3A3A;
+            --text-light: #6B6B6B;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.55);
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            animation: fadeUp 1.5s ease-out;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            letter-spacing: 0.04em;
+            margin-bottom: 0.3em;
+        }
+
+        .hero-content h1 em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
+        .hero-content p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 1.5rem auto;
+        }
+
+        /* Sections */
+        section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        section h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 0.5em;
+            color: var(--text);
+        }
+
+        section p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            max-width: 550px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Photo gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .gallery img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 2px;
+            transition: transform 0.5s ease, filter 0.5s ease;
+            filter: saturate(0.85);
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+            filter: saturate(1);
+        }
+
+        .gallery img:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+            aspect-ratio: 1;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(201, 169, 110, 0.06) 100%);
+            padding: 5rem 2rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.85rem;
+            font-family: 'Lato', sans-serif;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .cta-btn:hover {
+            background: var(--gold);
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+            .gallery img:first-child {
+                grid-column: span 2;
+                grid-row: span 1;
+                aspect-ratio: 16/9;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <img class="hero-img" src="photos/IMG-20260311-WA0004.jpg" alt="Us together">
+        <div class="hero-content">
+            <p>The wedding of</p>
+            <h1>Name <em>&</em> Name</h1>
+            <div class="divider"></div>
+            <p>Our Honeymoon Fund</p>
+        </div>
+    </div>
+
+    <section class="fade-in">
+        <h2>Help Us Create Memories</h2>
+        <div class="divider"></div>
+        <p>
+            Your presence at our wedding is the greatest gift of all. But if you wish to
+            contribute to our honeymoon adventure, we would be truly grateful for any
+            contribution to our travel fund.
+        </p>
+    </section>
+
+    <div class="gallery fade-in">
+        <img src="photos/IMG-20260311-WA0002.jpg" alt="Travel photo">
+        <img src="photos/IMG-20260311-WA0001.jpg" alt="Together">
+        <img src="photos/IMG-20260311-WA0005.jpg" alt="Exploring">
+        <img src="photos/IMG-20260311-WA0003.jpg" alt="Night out">
+        <img src="photos/IMG-20260311-WA0000.jpg" alt="Polaroids">
+    </div>
+
+    <section class="cta-section fade-in">
+        <h2>Contribute to Our Adventure</h2>
+        <div class="divider"></div>
+        <p>
+            Every contribution, no matter how small, brings us one step closer to
+            our dream honeymoon. Thank you for being part of our story.
+        </p>
+        <a href="https://paypal.me/placeholder" class="cta-btn">Contribute via PayPal</a>
+    </section>
+
+    <footer>
+        <p>With love and gratitude &mdash; Name & Name</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>

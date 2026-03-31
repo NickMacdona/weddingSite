@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honeymoon Site - Pick a Style</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F7F7F7;
+            color: #1A1A1A;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            font-size: 2.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        header p {
+            color: #777;
+            font-weight: 300;
+            font-size: 1.05rem;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .option-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .option-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 35px rgba(0,0,0,0.1);
+        }
+
+        .option-preview {
+            width: 100%;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .option-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .option-card:hover .option-preview img {
+            transform: scale(1.05);
+        }
+
+        .option-preview .style-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(8px);
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #555;
+        }
+
+        .option-info {
+            padding: 1.5rem;
+        }
+
+        .option-info h2 {
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            font-size: 1.35rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-info p {
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .option-info .view-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #C0785C;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Pick Your Style</h1>
+            <p>Three options for your honeymoon fund page. Click to preview each one.</p>
+        </header>
+
+        <div class="options">
+            <a href="elegant.html" class="option-card">
+                <div class="option-preview">
+                    <img src="photos/IMG-20260311-WA0004.jpg" alt="Elegant preview">
+                    <span class="style-badge">Option A</span>
+                </div>
+                <div class="option-info">
+                    <h2>Elegant Classic</h2>
+                    <p>Full-screen hero photo, cream & gold palette, serif typography. Understated luxury with smooth fade-in animations.</p>
+                    <span class="view-link">View preview &rarr;</span>
+                </div>
+            </a>
+
+            <a href="romantic.html" class="option-card">
+                <div class="option-preview">
+                    <img src="photos/IMG-20260311-WA0001.jpg" alt="Romantic preview">
+                    <span class="style-badge">Option B</span>
+                </div>
+                <div class="option-info">
+                    <h2>Soft Romance</h2>
+                    <p>Blush & sage palette, polaroid-style photo layout with tilted frames. Handwritten captions and soft, dreamy feel.</p>
+                    <span class="view-link">View preview &rarr;</span>
+                </div>
+            </a>
+
+            <a href="modern.html" class="option-card">
+                <div class="option-preview">
+                    <img src="photos/IMG-20260311-WA0002.jpg" alt="Modern preview">
+                    <span class="style-badge">Option C</span>
+                </div>
+                <div class="option-info">
+                    <h2>Modern Minimal</h2>
+                    <p>Clean split-screen layout, bold typography, terracotta accent. Grid photo gallery with a magazine-style feel.</p>
+                    <span class="view-link">View preview &rarr;</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>Honeymoon Fund Site &mdash; Style Selector</p>
+    </footer>
+
+</body>
+</html>

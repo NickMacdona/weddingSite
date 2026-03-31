@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Honeymoon Fund</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #FFFFFF;
+            --accent: #2C3E50;
+            --accent-warm: #C0785C;
+            --text: #1A1A1A;
+            --text-mid: #555;
+            --text-light: #999;
+            --border: #E8E8E8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.2rem;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        nav a.nav-cta {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-warm);
+            text-decoration: none;
+            border: 1.5px solid var(--accent-warm);
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s;
+        }
+
+        nav a.nav-cta:hover {
+            background: var(--accent-warm);
+            color: #fff;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 600px;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            padding-top: 6rem;
+        }
+
+        .hero-text .tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--accent-warm);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.15;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text p {
+            color: var(--text-mid);
+            font-size: 1.05rem;
+            max-width: 420px;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-img {
+            overflow: hidden;
+        }
+
+        .hero-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Grid Gallery */
+        .grid-section {
+            padding: 6rem 3rem;
+        }
+
+        .grid-section .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .grid-section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.3s;
+        }
+
+        .photo-grid img:hover {
+            opacity: 0.85;
+        }
+
+        .photo-grid img:nth-child(1) {
+            grid-column: span 2;
+            aspect-ratio: 2/1;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-image {
+            overflow: hidden;
+        }
+
+        .cta-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cta-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+        }
+
+        .cta-content h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            color: var(--text-mid);
+            margin-bottom: 2.5rem;
+            max-width: 400px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            align-self: flex-start;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-warm);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .hero-text {
+                padding: 8rem 2rem 3rem;
+                order: 2;
+            }
+            .hero-img {
+                order: 1;
+                height: 50vh;
+            }
+            .cta-section {
+                grid-template-columns: 1fr;
+            }
+            .cta-image { height: 300px; }
+            .cta-content { padding: 3rem 2rem; }
+            .grid-section { padding: 4rem 2rem; }
+            .photo-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .photo-grid img:nth-child(1) {
+                grid-column: span 2;
+                aspect-ratio: 16/9;
+            }
+            nav { padding: 1rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">N & N</a>
+        <a href="https://paypal.me/placeholder" class="nav-cta">Contribute</a>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-text">
+            <div class="tag">Honeymoon Fund</div>
+            <h1>Help us make new memories together</h1>
+            <p>
+                Your presence at our wedding is the greatest gift. If you'd like
+                to contribute to our honeymoon, we'd be so grateful.
+            </p>
+            <a href="https://paypal.me/placeholder" class="btn-primary">Contribute via PayPal</a>
+        </div>
+        <div class="hero-img">
+            <img src="photos/IMG-20260311-WA0002.jpg" alt="Us in the city">
+        </div>
+    </div>
+
+    <div class="grid-section fade-in">
+        <div class="section-label">Our Story</div>
+        <h2>A few of our favourite moments</h2>
+        <div class="photo-grid">
+            <img src="photos/IMG-20260311-WA0004.jpg" alt="Kiss">
+            <img src="photos/IMG-20260311-WA0001.jpg" alt="Together">
+            <img src="photos/IMG-20260311-WA0005.jpg" alt="Chateau">
+            <img src="photos/IMG-20260311-WA0003.jpg" alt="Night">
+            <img src="photos/IMG-20260311-WA0000.jpg" alt="Polaroids">
+        </div>
+    </div>
+
+    <div class="cta-section fade-in">
+        <div class="cta-image">
+            <img src="photos/IMG-20260311-WA0005.jpg" alt="Together">
+        </div>
+        <div class="cta-content">
+            <h2>Every little bit helps us dream bigger</h2>
+            <p>
+                From cobblestone streets to sandy shores, your kindness will help us
+                create the honeymoon we've always imagined. No amount is too small
+                &mdash; it all means the world to us.
+            </p>
+            <a href="https://paypal.me/placeholder" class="btn-primary">Contribute Now</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>Name & Name &mdash; Our Honeymoon Fund</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
