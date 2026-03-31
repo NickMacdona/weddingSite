@@ -5,306 +5,267 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Honeymoon Fund</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        :root {
-            --sage: #B7C4A1;
-            --sage-dark: #8A9E6E;
-            --moss: #6B7F5A;
-            --fern: #4A5E3C;
-            --blush: #E8D5CC;
-            --stone: #D4CFC8;
-            --linen: #F6F3EE;
-            --cream: #FDFCF9;
-            --text: #3B3B35;
-            --text-soft: #6E6E64;
-            --text-faint: #9E9E92;
+        body {
+            font-family: 'Lora', serif;
+            background: #FAF8F5;
+            color: #3D3D35;
+            font-weight: 400;
+            line-height: 1.9;
+            -webkit-font-smoothing: antialiased;
         }
 
-        body {
-            font-family: 'Jost', sans-serif;
-            background: var(--cream);
-            color: var(--text);
-            font-weight: 300;
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
+        /* ── Page wrapper ── */
+        .page {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
         }
 
         /* ── Hero ── */
         .hero {
+            min-height: 100svh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100svh;
-            padding: 3rem 2rem;
             text-align: center;
+            padding: 4rem 0;
         }
 
-        .hero-date {
-            font-family: 'Jost', sans-serif;
-            font-weight: 200;
-            font-size: 0.75rem;
-            letter-spacing: 0.35em;
+        .hero-eyebrow {
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: var(--text-faint);
-            margin-bottom: 2.5rem;
+            color: #A4A48E;
+            margin-bottom: 3rem;
         }
 
         .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Cormorant', serif;
             font-weight: 300;
-            font-size: clamp(2.8rem, 10vw, 4.5rem);
-            line-height: 1.05;
-            color: var(--text);
-            margin-bottom: 0.4em;
+            font-size: 3.2rem;
+            line-height: 1;
+            letter-spacing: 0.02em;
         }
 
-        .hero h1 .amp {
+        .hero h1 .and {
             display: block;
             font-style: italic;
-            font-size: 0.45em;
-            color: var(--sage-dark);
-            margin: 0.4em 0;
-            letter-spacing: 0.05em;
+            font-weight: 300;
+            font-size: 1.4rem;
+            color: #8B9B74;
+            margin: 0.6em 0;
+            letter-spacing: 0.08em;
         }
 
-        .hero-sub {
-            font-family: 'Cormorant Garamond', serif;
+        .hero-subtitle {
+            margin-top: 3rem;
+            font-family: 'Cormorant', serif;
             font-style: italic;
             font-weight: 300;
-            font-size: 1.15rem;
-            color: var(--text-soft);
-            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: #8B8B7A;
+            letter-spacing: 0.04em;
         }
 
-        /* ── Dividers ── */
-        .divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-        }
-
-        .divider-line {
+        /* ── Vertical rule ── */
+        .rule {
             width: 1px;
-            height: 60px;
-            background: var(--stone);
+            height: 70px;
+            background: #D1CEBC;
+            margin: 0 auto;
         }
 
-        .divider-leaf {
+        /* ── Ornament ── */
+        .ornament {
+            text-align: center;
+            padding: 2.5rem 0;
+            color: #C4C0AA;
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+        }
+
+        /* ── Section ── */
+        .section {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .section h2 {
+            font-family: 'Cormorant', serif;
+            font-weight: 300;
+            font-size: 1.65rem;
+            line-height: 1.3;
+            color: #3D3D35;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.01em;
+        }
+
+        .section p {
+            font-size: 0.88rem;
+            color: #7A7A6C;
+            line-height: 2;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        /* ── Horizontal rule ── */
+        .hr {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1.2rem;
             padding: 1rem 0;
         }
 
-        .divider-leaf::before,
-        .divider-leaf::after {
+        .hr::before,
+        .hr::after {
             content: '';
-            width: 40px;
-            height: 1px;
-            background: var(--stone);
-        }
-
-        .divider-leaf span {
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--text-faint);
-            font-weight: 300;
-        }
-
-        /* ── Photo sections ── */
-        .photo-single {
-            width: 100%;
-            max-width: 380px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .photo-single img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .photo-pair {
-            display: flex;
-            gap: 1rem;
-            max-width: 560px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .photo-pair img {
             flex: 1;
-            width: 0;
-            height: auto;
-            object-fit: cover;
-            display: block;
+            max-width: 60px;
+            height: 1px;
+            background: #D1CEBC;
         }
 
-        /* ── Text sections ── */
-        .text-section {
-            text-align: center;
-            max-width: 420px;
-            margin: 0 auto;
-            padding: 3.5rem 2rem;
-        }
-
-        .text-section h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.6rem, 5vw, 2.2rem);
-            color: var(--text);
-            margin-bottom: 1.2rem;
-            line-height: 1.25;
-        }
-
-        .text-section p {
-            font-size: 0.95rem;
-            color: var(--text-soft);
-            line-height: 1.85;
+        .hr span {
+            font-family: 'Cormorant', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: #8B9B74;
         }
 
         /* ── CTA ── */
-        .cta-section {
+        .cta {
             text-align: center;
-            padding: 2rem 2rem 5rem;
+            padding: 2rem 0 4rem;
         }
 
-        .cta-btn {
+        .cta a {
             display: inline-block;
-            padding: 0.9rem 2.8rem;
-            border: 1px solid var(--moss);
-            color: var(--moss);
+            padding: 0.85rem 2.6rem;
+            border: 1px solid #8B9B74;
+            color: #8B9B74;
             text-decoration: none;
-            font-family: 'Jost', sans-serif;
-            font-weight: 300;
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
+            font-family: 'Lora', serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
-            transition: all 0.3s ease;
+            transition: background 0.3s, color 0.3s;
         }
 
-        .cta-btn:hover {
-            background: var(--moss);
-            color: var(--cream);
+        .cta a:hover {
+            background: #8B9B74;
+            color: #FAF8F5;
         }
 
         /* ── Footer ── */
         footer {
             text-align: center;
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--stone);
+            padding: 2.5rem 0;
+            border-top: 1px solid #E4E1D6;
         }
 
         footer p {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Cormorant', serif;
             font-style: italic;
-            font-weight: 300;
-            font-size: 1rem;
-            color: var(--text-faint);
+            font-size: 0.95rem;
+            color: #A4A48E;
+            letter-spacing: 0.03em;
         }
 
         /* ── Fade ── */
-        .fade-in {
+        .fade {
             opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: translateY(12px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
 
-        .fade-in.visible {
+        .fade.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* ── Desktop: widen layout ── */
+        /* ── Desktop ── */
         @media (min-width: 769px) {
-            .photo-single { max-width: 480px; }
-            .photo-pair { max-width: 680px; }
-            .text-section { max-width: 500px; padding: 4.5rem 2rem; }
-            .divider-line { height: 80px; }
+            .page { max-width: 540px; }
+            .hero h1 { font-size: 4rem; }
+            .section { padding: 3.5rem 0; }
+            .rule { height: 90px; }
         }
     </style>
 </head>
 <body>
+    <div class="page">
 
-    <!-- Hero -->
-    <section class="hero fade-in">
-        <p class="hero-date">A celebration of love</p>
-        <h1>
-            Name
-            <span class="amp">&</span>
-            Name
-        </h1>
-        <p class="hero-sub">our honeymoon fund</p>
-    </section>
+        <section class="hero fade">
+            <p class="hero-eyebrow">The wedding of</p>
+            <h1>
+                Name
+                <span class="and">and</span>
+                Name
+            </h1>
+            <p class="hero-subtitle">our honeymoon fund</p>
+        </section>
 
-    <div class="divider"><div class="divider-line"></div></div>
+        <div class="rule"></div>
 
-    <!-- Text -->
-    <div class="text-section fade-in">
-        <h2>Your presence is our greatest gift</h2>
-        <p>
-            We feel so lucky to have you celebrating with us.
-            If you would like to give a gift, a contribution
-            towards our honeymoon would mean the world.
-        </p>
+        <div class="section fade">
+            <h2>Your presence is<br>our greatest gift</h2>
+            <p>
+                We feel so lucky to have you celebrating with us.
+                If you would like to give a gift, a contribution
+                towards our honeymoon would mean the world.
+            </p>
+        </div>
+
+        <div class="hr"><span>&</span></div>
+
+        <div class="section fade">
+            <h2>Help us create<br>new adventures</h2>
+            <p>
+                From wandering cobblestone streets to watching
+                sunsets over new horizons, your generosity will
+                help us build beautiful memories together.
+            </p>
+        </div>
+
+        <div class="hr"><span>&</span></div>
+
+        <div class="section fade">
+            <h2>Every little<br>bit counts</h2>
+            <p>
+                Whether it's a morning coffee in a quiet caf&eacute;
+                or a sunset boat ride along the coast, your kindness
+                will make our honeymoon truly unforgettable.
+            </p>
+        </div>
+
+        <div class="rule"></div>
+
+        <div class="section fade">
+            <h2>Contribute to<br>our journey</h2>
+            <p>Thank you for being part of our story.</p>
+        </div>
+
+        <div class="cta fade">
+            <a href="https://paypal.me/placeholder">Contribute via PayPal</a>
+        </div>
+
+        <footer>
+            <p>With love &mdash; Name & Name</p>
+        </footer>
+
     </div>
-
-    <div class="divider-leaf fade-in"><span>&#10043;</span></div>
-
-    <!-- Text -->
-    <div class="text-section fade-in">
-        <h2>Help us create<br>new adventures</h2>
-        <p>
-            From wandering cobblestone streets to watching sunsets
-            over new horizons, your generosity will help us create
-            beautiful memories to last a lifetime.
-        </p>
-    </div>
-
-    <div class="divider-leaf fade-in"><span>&#10043;</span></div>
-
-    <!-- Text -->
-    <div class="text-section fade-in">
-        <h2>Every little bit counts</h2>
-        <p>
-            Whether it's a morning coffee in a Parisian caf&eacute;
-            or a sunset boat ride, your kindness will make our
-            honeymoon unforgettable.
-        </p>
-    </div>
-
-    <div class="divider"><div class="divider-line"></div></div>
-
-    <!-- CTA -->
-    <div class="text-section">
-        <h2>Contribute to our journey</h2>
-        <p style="margin-bottom: 2rem;">Thank you for being part of our story.</p>
-    </div>
-
-    <div class="cta-section fade-in">
-        <a href="https://paypal.me/placeholder" class="cta-btn">Contribute via PayPal</a>
-    </div>
-
-    <footer>
-        <p>With love &mdash; Name & Name</p>
-    </footer>
 
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        const o = new IntersectionObserver(e => {
+            e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade').forEach(el => o.observe(el));
     </script>
-
 </body>
 </html>
