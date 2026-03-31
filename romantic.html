@@ -28,37 +28,107 @@
             overflow-x: hidden;
         }
 
-        /* Decorative background */
-        body::before {
-            content: '';
+        /* Scattered photos background layer */
+        .scattered-photos {
             position: fixed;
-            top: -50%;
-            right: -30%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(168, 181, 162, 0.12) 0%, transparent 70%);
-            border-radius: 50%;
+            inset: 0;
+            z-index: 0;
             pointer-events: none;
-            z-index: -1;
         }
 
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -40%;
-            left: -20%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(242, 224, 224, 0.25) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
+        .scattered-photos .photo {
+            position: absolute;
+            background: #fff;
+            padding: 0.6rem 0.6rem 2rem;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.08);
+            opacity: 0;
+            animation: dropIn 0.8s ease forwards;
+        }
+
+        .scattered-photos .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .scattered-photos .photo .caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            text-align: center;
+            padding-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Each photo: unique size, position, rotation */
+        .photo-1 {
+            width: clamp(160px, 18vw, 240px);
+            top: 2%;
+            left: 3%;
+            transform: rotate(-8deg);
+            animation-delay: 0.1s !important;
+        }
+        .photo-2 {
+            width: clamp(140px, 16vw, 210px);
+            top: 5%;
+            right: 5%;
+            transform: rotate(5deg);
+            animation-delay: 0.3s !important;
+        }
+        .photo-3 {
+            width: clamp(150px, 17vw, 220px);
+            top: 35%;
+            left: -2%;
+            transform: rotate(12deg);
+            animation-delay: 0.5s !important;
+        }
+        .photo-4 {
+            width: clamp(130px, 15vw, 200px);
+            top: 40%;
+            right: 2%;
+            transform: rotate(-6deg);
+            animation-delay: 0.7s !important;
+        }
+        .photo-5 {
+            width: clamp(155px, 17vw, 230px);
+            bottom: 15%;
+            left: 5%;
+            transform: rotate(-4deg);
+            animation-delay: 0.9s !important;
+        }
+        .photo-6 {
+            width: clamp(145px, 16vw, 215px);
+            bottom: 8%;
+            right: 4%;
+            transform: rotate(9deg);
+            animation-delay: 1.1s !important;
+        }
+
+        @keyframes dropIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-40px) rotate(0deg) scale(0.9);
+            }
+            60% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) var(--final-rotate, rotate(0deg)) scale(1);
+            }
+        }
+
+        /* Content layer sits above photos */
+        .content {
+            position: relative;
+            z-index: 1;
         }
 
         /* Header */
         .header {
             text-align: center;
-            padding: 5rem 2rem 3rem;
+            padding: 6rem 2rem 3rem;
         }
 
         .header p.prelude {
@@ -105,62 +175,21 @@
             opacity: 0.5;
         }
 
-        /* Polaroid photos */
-        .polaroids {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            padding: 2rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .polaroid {
-            background: #fff;
-            padding: 0.8rem 0.8rem 2.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
-            transition: transform 0.4s ease;
-            width: clamp(150px, 30vw, 220px);
-        }
-
-        .polaroid:nth-child(1) { transform: rotate(-3deg); }
-        .polaroid:nth-child(2) { transform: rotate(2deg); margin-top: 1.5rem; }
-        .polaroid:nth-child(3) { transform: rotate(-1.5deg); }
-        .polaroid:nth-child(4) { transform: rotate(3deg); margin-top: 1rem; }
-        .polaroid:nth-child(5) { transform: rotate(-2deg); margin-top: 2rem; }
-        .polaroid:nth-child(6) { transform: rotate(1deg); }
-
-        .polaroid:hover {
-            transform: rotate(0deg) scale(1.05) !important;
-            z-index: 2;
-        }
-
-        .polaroid img {
-            width: 100%;
-            aspect-ratio: 4/5;
-            object-fit: cover;
-            display: block;
-        }
-
-        .polaroid .caption {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
+        /* Glass card for text sections */
+        .glass-card {
+            max-width: 560px;
+            margin: 3rem auto;
+            padding: 3rem 2.5rem;
             text-align: center;
-            padding-top: 0.8rem;
-            font-size: 0.85rem;
-            color: var(--text-light);
+            background: rgba(253, 249, 246, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(168, 181, 162, 0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.04);
         }
 
-        /* Message section */
-        .message {
-            max-width: 600px;
-            margin: 4rem auto;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .message h2 {
+        .glass-card h2 {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 300;
             font-size: clamp(1.8rem, 4vw, 2.5rem);
@@ -168,7 +197,7 @@
             color: var(--text);
         }
 
-        .message p {
+        .glass-card p {
             color: var(--text-light);
             font-size: 1rem;
             margin-bottom: 1rem;
@@ -177,7 +206,7 @@
         /* CTA Button */
         .cta-wrap {
             text-align: center;
-            padding: 2rem 2rem 5rem;
+            padding: 2rem 2rem 6rem;
         }
 
         .cta-btn {
@@ -222,78 +251,95 @@
             transform: translateY(0);
         }
 
-        @media (max-width: 600px) {
-            .polaroids { gap: 1rem; }
-            .polaroid { width: clamp(120px, 42vw, 180px); }
+        /* Responsive: on small screens, reduce photo sizes and reposition */
+        @media (max-width: 768px) {
+            .scattered-photos .photo {
+                padding: 0.4rem 0.4rem 1.4rem;
+            }
+            .photo-1 { width: 120px; top: 1%;  left: -3%; }
+            .photo-2 { width: 110px; top: 3%;  right: -2%; }
+            .photo-3 { width: 115px; top: 32%; left: -5%; }
+            .photo-4 { width: 105px; top: 38%; right: -3%; }
+            .photo-5 { width: 120px; bottom: 18%; left: -2%; }
+            .photo-6 { width: 110px; bottom: 6%;  right: -4%; }
+
+            .glass-card {
+                margin: 2rem 1rem;
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="header fade-in">
-        <p class="prelude">together is our favourite place to be</p>
-        <h1>
-            Name
-            <span>&</span>
-            Name
-        </h1>
-    </div>
-
-    <div class="leaf-divider">&hearts;</div>
-
-    <div class="message fade-in">
-        <h2>Our Honeymoon Fund</h2>
-        <p>
-            We feel so lucky to have you celebrating with us. Your love and presence
-            mean the world. If you would like to give a gift, a contribution towards
-            our honeymoon would be a dream come true.
-        </p>
-    </div>
-
-    <div class="polaroids fade-in">
-        <div class="polaroid">
+    <!-- Scattered photos background -->
+    <div class="scattered-photos">
+        <div class="photo photo-1" style="--final-rotate: rotate(-8deg)">
             <img src="photos/IMG-20260311-WA0001.jpg" alt="Us">
             <div class="caption">always smiling</div>
         </div>
-        <div class="polaroid">
+        <div class="photo photo-2" style="--final-rotate: rotate(5deg)">
             <img src="photos/IMG-20260311-WA0002.jpg" alt="Travel">
             <div class="caption">exploring together</div>
         </div>
-        <div class="polaroid">
+        <div class="photo photo-3" style="--final-rotate: rotate(12deg)">
             <img src="photos/IMG-20260311-WA0004.jpg" alt="Evening">
             <div class="caption">evening lights</div>
         </div>
-        <div class="polaroid">
+        <div class="photo photo-4" style="--final-rotate: rotate(-6deg)">
             <img src="photos/IMG-20260311-WA0005.jpg" alt="Chateau">
             <div class="caption">adventures await</div>
         </div>
-        <div class="polaroid">
+        <div class="photo photo-5" style="--final-rotate: rotate(-4deg)">
             <img src="photos/IMG-20260311-WA0003.jpg" alt="Night">
             <div class="caption">city nights</div>
         </div>
-        <div class="polaroid">
+        <div class="photo photo-6" style="--final-rotate: rotate(9deg)">
             <img src="photos/IMG-20260311-WA0000.jpg" alt="Memories">
             <div class="caption">our memories</div>
         </div>
     </div>
 
-    <div class="leaf-divider">&hearts;</div>
+    <!-- Content floating above -->
+    <div class="content">
+        <div class="header fade-in">
+            <p class="prelude">together is our favourite place to be</p>
+            <h1>
+                Name
+                <span>&</span>
+                Name
+            </h1>
+        </div>
 
-    <div class="message fade-in">
-        <h2>Help Us Create New Adventures</h2>
-        <p>
-            From wandering cobblestone streets to watching sunsets over new horizons,
-            your generosity will help us create beautiful memories to last a lifetime.
-        </p>
+        <div class="leaf-divider">&hearts;</div>
+
+        <div class="glass-card fade-in">
+            <h2>Our Honeymoon Fund</h2>
+            <p>
+                We feel so lucky to have you celebrating with us. Your love and presence
+                mean the world. If you would like to give a gift, a contribution towards
+                our honeymoon would be a dream come true.
+            </p>
+        </div>
+
+        <div class="leaf-divider">&hearts;</div>
+
+        <div class="glass-card fade-in">
+            <h2>Help Us Create New Adventures</h2>
+            <p>
+                From wandering cobblestone streets to watching sunsets over new horizons,
+                your generosity will help us create beautiful memories to last a lifetime.
+            </p>
+        </div>
+
+        <div class="cta-wrap fade-in">
+            <a href="https://paypal.me/placeholder" class="cta-btn">Contribute to Our Honeymoon</a>
+        </div>
+
+        <footer>
+            <p>With all our love &mdash; Name & Name</p>
+        </footer>
     </div>
-
-    <div class="cta-wrap fade-in">
-        <a href="https://paypal.me/placeholder" class="cta-btn">Contribute to Our Honeymoon</a>
-    </div>
-
-    <footer>
-        <p>With all our love &mdash; Name & Name</p>
-    </footer>
 
     <script>
         const observer = new IntersectionObserver((entries) => {
