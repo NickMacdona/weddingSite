@@ -143,7 +143,7 @@
         .header h1 {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 300;
-            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-size: clamp(2rem, 8vw, 5.5rem);
             line-height: 1.1;
             color: var(--text);
         }
@@ -251,22 +251,35 @@
             transform: translateY(0);
         }
 
-        /* Responsive: on small screens, reduce photo sizes and reposition */
+        /* Responsive */
         @media (max-width: 768px) {
             .scattered-photos .photo {
                 padding: 0.4rem 0.4rem 1.4rem;
             }
-            .photo-1 { width: 120px; top: 1%;  left: -3%; }
-            .photo-2 { width: 110px; top: 3%;  right: -2%; }
-            .photo-3 { width: 115px; top: 32%; left: -5%; }
-            .photo-4 { width: 105px; top: 38%; right: -3%; }
-            .photo-5 { width: 120px; bottom: 18%; left: -2%; }
-            .photo-6 { width: 110px; bottom: 6%;  right: -4%; }
+            .photo-1 { width: 100px; top: 1%;  left: -15%; }
+            .photo-2 { width: 90px;  top: 3%;  right: -12%; }
+            .photo-3 { width: 95px;  top: 32%; left: -18%; }
+            .photo-4 { width: 85px;  top: 40%; right: -15%; }
+            .photo-5 { width: 100px; bottom: 18%; left: -12%; }
+            .photo-6 { width: 90px;  bottom: 6%;  right: -18%; }
 
+            .header { padding: 4rem 1.5rem 2rem; }
             .glass-card {
                 margin: 2rem 1rem;
                 padding: 2rem 1.5rem;
             }
+        }
+
+        @media (max-width: 480px) {
+            .scattered-photos { display: none; }
+            .header { padding: 3rem 1rem 2rem; }
+            .glass-card {
+                margin: 1.5rem 0.75rem;
+                padding: 1.5rem 1.25rem;
+                background: rgba(253, 249, 246, 0.95);
+            }
+            .cta-wrap { padding: 1.5rem 1rem 4rem; }
+            .cta-btn { padding: 1rem 2rem; }
         }
     </style>
 </head>

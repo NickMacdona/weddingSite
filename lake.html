@@ -343,13 +343,28 @@
         /* Responsive */
         @media (max-width: 768px) {
             .float-photo { padding: 0.35rem 0.35rem 1.2rem; }
-            .fp-1 { width: 110px; top: 2%;  left: -3%; }
-            .fp-2 { width: 100px; top: 5%;  right: -2%; }
-            .fp-3 { width: 115px; top: 34%; left: -4%; }
-            .fp-4 { width: 95px;  top: 40%; right: -2%; }
-            .fp-5 { width: 110px; bottom: 16%; left: -1%; }
-            .fp-6 { width: 100px; bottom: 4%;  right: -3%; }
+            .fp-1 { width: 90px;  top: 2%;  left: -12%; }
+            .fp-2 { width: 80px;  top: 5%;  right: -10%; }
+            .fp-3 { width: 95px;  top: 34%; left: -15%; }
+            .fp-4 { width: 75px;  top: 40%; right: -12%; }
+            .fp-5 { width: 90px;  bottom: 16%; left: -10%; }
+            .fp-6 { width: 80px;  bottom: 4%;  right: -14%; }
+            .header { padding: 4rem 1.5rem 2rem; }
             .glass-card { margin: 2rem 1rem; padding: 2rem 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .floating-photos { display: none; }
+            .petal-3, .petal-5, .petal-7, .petal-9, .petal-11 { display: none; }
+            .header { padding: 3rem 1rem 1.5rem; }
+            .glass-card {
+                margin: 1.5rem 0.75rem;
+                padding: 1.5rem 1.25rem;
+                max-width: 100%;
+            }
+            .cta-wrap { padding: 1.5rem 1rem 4rem; }
+            .cta-btn { padding: 1rem 2rem; }
+            .divider { margin: 1.5rem auto; }
         }
     </style>
 </head>
