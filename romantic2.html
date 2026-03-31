@@ -6,6 +6,10 @@
     <title>Our Honeymoon Fund</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- ═══════════════════════════════════════════
+         SHARED BASE — fonts, colours, resets only
+         ═══════════════════════════════════════════ -->
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -24,26 +28,109 @@
             font-weight: 300;
             line-height: 1.8;
             overflow-x: hidden;
-            /* Warm linen background */
             background-color: var(--cream);
             background-image:
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0,0,0,0.008) 2px,
-                    rgba(0,0,0,0.008) 4px
-                ),
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0,0,0,0.006) 2px,
-                    rgba(0,0,0,0.006) 4px
-                );
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.008) 2px, rgba(0,0,0,0.008) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.006) 2px, rgba(0,0,0,0.006) 4px);
         }
 
-        /* ── Scattered polaroids ── */
+        .polaroid img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+
+        .header p.prelude {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--sage-deep);
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--text);
+        }
+
+        .header h1 span {
+            display: block;
+            font-style: italic;
+            color: var(--blush-deep);
+        }
+
+        .glass-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            color: var(--text);
+        }
+
+        .glass-card p {
+            color: var(--text-light);
+        }
+
+        .leaf-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--sage);
+        }
+
+        .leaf-divider::before,
+        .leaf-divider::after {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: var(--sage);
+            opacity: 0.5;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--sage-deep) 100%);
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 181, 162, 0.35);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(168, 181, 162, 0.5);
+        }
+
+        footer {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <!-- ═══════════════════════════════════════════
+         DESKTOP — min-width 769px
+         Fixed scattered polaroids behind glass cards
+         ═══════════════════════════════════════════ -->
+    <style media="screen and (min-width: 769px)">
         .scattered {
             position: fixed;
             inset: 0;
@@ -55,57 +142,17 @@
             position: absolute;
             background: #fff;
             padding: 0.6rem 0.6rem 1.8rem;
-            box-shadow:
-                0 2px 8px rgba(0,0,0,0.08),
-                0 6px 24px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 6px 24px rgba(0,0,0,0.06);
             width: clamp(200px, 26vw, 320px);
         }
 
-        .polaroid img {
-            width: 100%;
-            aspect-ratio: 4/5;
-            object-fit: cover;
-            object-position: top center;
-            display: block;
-        }
+        .p1 { top: 2%;  left: 8%;    transform: rotate(-8deg);  z-index: 2; }
+        .p2 { top: 0%;  left: 38%;   transform: rotate(4deg);   z-index: 3; }
+        .p3 { top: 5%;  right: 6%;   transform: rotate(-3deg);  z-index: 1; }
+        .p4 { bottom: 18%; left: 5%; transform: rotate(6deg);   z-index: 1; }
+        .p5 { bottom: 8%;  left: 34%; transform: rotate(-5deg); z-index: 4; }
+        .p6 { bottom: 2%;  right: 4%; transform: rotate(10deg); z-index: 2; }
 
-        /*
-         * 6 polaroids scattered like tossed on a surface.
-         * Positioned to fill the viewport with slight overlaps.
-         * Reorder z-index values to change layering.
-         */
-        .p1 {
-            top: 2%; left: 8%;
-            transform: rotate(-8deg);
-            z-index: 2;
-        }
-        .p2 {
-            top: 0%; left: 38%;
-            transform: rotate(4deg);
-            z-index: 3;
-        }
-        .p3 {
-            top: 5%; right: 6%;
-            transform: rotate(-3deg);
-            z-index: 1;
-        }
-        .p4 {
-            bottom: 18%; left: 5%;
-            transform: rotate(6deg);
-            z-index: 1;
-        }
-        .p5 {
-            bottom: 8%; left: 34%;
-            transform: rotate(-5deg);
-            z-index: 4;
-        }
-        .p6 {
-            bottom: 2%; right: 4%;
-            transform: rotate(10deg);
-            z-index: 2;
-        }
-
-        /* ── Content ── */
         .content {
             position: relative;
             z-index: 10;
@@ -116,49 +163,11 @@
             padding: 5rem 2rem 2rem;
         }
 
-        .header p.prelude {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 300;
-            font-size: 1.2rem;
-            color: var(--sage-deep);
-            margin-bottom: 0.5rem;
-        }
+        .header p.prelude { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .header h1 { font-size: clamp(2.2rem, 8vw, 5.5rem); }
+        .header h1 span { font-size: 0.5em; margin: 0.2em 0; }
 
-        .header h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(2.2rem, 8vw, 5.5rem);
-            line-height: 1.1;
-            color: var(--text);
-        }
-
-        .header h1 span {
-            display: block;
-            font-style: italic;
-            font-size: 0.5em;
-            color: var(--blush-deep);
-            margin: 0.2em 0;
-        }
-
-        .leaf-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1.5rem auto;
-            color: var(--sage);
-            font-size: 1.5rem;
-        }
-
-        .leaf-divider::before,
-        .leaf-divider::after {
-            content: '';
-            width: 50px;
-            height: 1px;
-            background: var(--sage);
-            opacity: 0.5;
-        }
+        .leaf-divider { margin: 1.5rem auto; font-size: 1.5rem; }
 
         .glass-card {
             max-width: 520px;
@@ -173,97 +182,88 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.04);
         }
 
-        .glass-card h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 0.8rem;
-            color: var(--text);
+        .glass-card h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 0.8rem; }
+        .glass-card p { font-size: 1rem; }
+
+        .cta-wrap { text-align: center; padding: 1.5rem 2rem 5rem; }
+        .cta-btn { padding: 1rem 2.5rem; font-size: 0.95rem; }
+
+        footer { padding: 2rem; font-size: 1rem; }
+    </style>
+
+    <!-- ═══════════════════════════════════════════
+         MOBILE — max-width 768px
+         Polaroids inline at top, header below them
+         ═══════════════════════════════════════════ -->
+    <style media="screen and (max-width: 768px)">
+        /* Photos become a scrollable scattered cluster at the top */
+        .scattered {
+            position: relative;
+            z-index: 0;
+            width: 100%;
+            height: 55vh;
+            min-height: 360px;
+            overflow: hidden;
         }
 
-        .glass-card p {
-            color: var(--text-light);
-            font-size: 1rem;
+        .polaroid {
+            position: absolute;
+            background: #fff;
+            padding: 0.35rem 0.35rem 1.1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05);
+            width: 38vw;
         }
 
-        .cta-wrap {
+        /* Scattered across the top cluster */
+        .p1 { top: 4%;  left: 3%;   transform: rotate(-6deg);  z-index: 2; }
+        .p2 { top: 2%;  left: 33%;  transform: rotate(4deg);   z-index: 3; }
+        .p3 { top: 6%;  right: 2%;  transform: rotate(-3deg);  z-index: 1; }
+        .p4 { bottom: 4%;  left: 6%;  transform: rotate(5deg);  z-index: 1; }
+        .p5 { bottom: 2%;  left: 32%; transform: rotate(-4deg); z-index: 4; }
+        .p6 { bottom: 6%;  right: 3%; transform: rotate(8deg);  z-index: 2; }
+
+        /* Content flows after the photos */
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
             text-align: center;
-            padding: 1.5rem 2rem 5rem;
+            padding: 2rem 1.5rem 1.5rem;
         }
 
-        .cta-btn {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, var(--sage) 0%, var(--sage-deep) 100%);
-            color: #fff;
-            text-decoration: none;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 500;
-            font-size: 0.95rem;
-            letter-spacing: 0.1em;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(168, 181, 162, 0.35);
-        }
+        .header p.prelude { font-size: 1rem; margin-bottom: 0.3rem; }
+        .header h1 { font-size: 2.8rem; }
+        .header h1 span { font-size: 0.5em; margin: 0.15em 0; }
 
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(168, 181, 162, 0.5);
-        }
+        .leaf-divider { margin: 1.2rem auto; font-size: 1.2rem; }
 
-        footer {
+        .glass-card {
+            margin: 1.2rem 0.75rem;
+            padding: 1.5rem 1.25rem;
             text-align: center;
-            padding: 2rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            color: var(--text-light);
-            font-size: 1rem;
+            background: rgba(245, 240, 235, 0.95);
+            border-radius: 12px;
+            border: 1px solid rgba(168, 181, 162, 0.1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
         }
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(25px);
-            transition: opacity 0.9s ease, transform 0.9s ease;
-        }
+        .glass-card h2 { font-size: 1.6rem; margin-bottom: 0.6rem; }
+        .glass-card p { font-size: 0.95rem; }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .cta-wrap { text-align: center; padding: 1rem 1rem 3rem; }
+        .cta-btn { padding: 1rem 2rem; font-size: 0.9rem; }
 
-        /* ── Responsive ── */
-        @media (max-width: 768px) {
-            .polaroid { width: clamp(160px, 32vw, 220px); }
-            .header { padding: 3.5rem 1.5rem 1.5rem; }
-            .glass-card { margin: 1.5rem 1rem; padding: 2rem 1.5rem; }
-            .p1 { top: 1%;  left: 2%; }
-            .p2 { top: -1%; left: 34%; }
-            .p3 { top: 3%;  right: 0%; }
-            .p4 { bottom: 16%; left: 0%; }
-            .p5 { bottom: 6%;  left: 30%; }
-            .p6 { bottom: 0%;  right: -2%; }
-        }
-
-        @media (max-width: 480px) {
-            .polaroid { width: clamp(130px, 38vw, 170px); padding: 0.4rem 0.4rem 1.2rem; }
-            .header { padding: 3rem 1rem 1rem; }
-            .glass-card {
-                margin: 1.5rem 0.5rem;
-                padding: 1.5rem 1.25rem;
-                background: rgba(245, 240, 235, 0.93);
-                backdrop-filter: blur(24px);
-                -webkit-backdrop-filter: blur(24px);
-            }
-            .cta-wrap { padding: 1rem 1rem 4rem; }
-            .cta-btn { padding: 1rem 2rem; }
-        }
+        footer { padding: 1.5rem; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <!--
         Scattered polaroids — tossed on a surface.
-        Change z-index classes or reorder to adjust layering.
+        Desktop: fixed behind glass cards.
+        Mobile: inline cluster at the top, header appears below.
     -->
     <div class="scattered">
         <div class="polaroid p1"><img src="photos/IMG-20260311-WA0001.jpg" alt=""></div>
