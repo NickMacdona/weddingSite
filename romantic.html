@@ -21,32 +21,30 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: var(--cream);
-            color: var(--text);
+            color: #fff;
             font-weight: 300;
             line-height: 1.8;
             overflow-x: hidden;
+            background: #1a1a1a;
         }
 
-        /* Photo collage background */
-        .photo-bg {
-            position: fixed;
+        /* ── Full-screen photo sections ── */
+        .section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .section-bg {
+            position: absolute;
             inset: 0;
             z-index: 0;
-            pointer-events: none;
-            background: var(--cream);
         }
 
-        .photo-bg .photo {
-            position: absolute;
-            background: #fff;
-            padding: 0.5rem;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08);
-            opacity: 0;
-            animation: fadeIn 1.2s ease forwards;
-        }
-
-        .photo-bg .photo img {
+        .section-bg img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -54,153 +52,139 @@
             display: block;
         }
 
-        /* Large overlapping photos filling the viewport — portrait-friendly */
-        .photo-1 {
-            width: 36vw; aspect-ratio: 3/4;
-            top: -5%; left: -3%;
-            transform: rotate(-4deg);
-            animation-delay: 0.1s !important;
-            z-index: 1;
-        }
-        .photo-2 {
-            width: 34vw; aspect-ratio: 3/4;
-            top: -6%; right: -2%;
-            transform: rotate(3deg);
-            animation-delay: 0.25s !important;
-            z-index: 2;
-        }
-        .photo-3 {
-            width: 32vw; aspect-ratio: 3/4;
-            top: 28%; left: 10%;
-            transform: rotate(5deg);
-            animation-delay: 0.4s !important;
-            z-index: 3;
-        }
-        .photo-4 {
-            width: 35vw; aspect-ratio: 3/4;
-            top: 26%; right: 5%;
-            transform: rotate(-3deg);
-            animation-delay: 0.55s !important;
-            z-index: 2;
-        }
-        .photo-5 {
-            width: 36vw; aspect-ratio: 3/4;
-            bottom: -8%; left: -1%;
-            transform: rotate(-6deg);
-            animation-delay: 0.7s !important;
-            z-index: 1;
-        }
-        .photo-6 {
-            width: 33vw; aspect-ratio: 3/4;
-            bottom: -6%; right: 0%;
-            transform: rotate(4deg);
-            animation-delay: 0.85s !important;
-            z-index: 2;
+        /* Overlays — light sections get a cream wash, dark sections get a darker veil */
+        .section--light .section-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(253, 249, 246, 0.45);
         }
 
-        /* WA0004 (kiss) is landscape — override aspect ratio */
-        .photo-3 { aspect-ratio: 4/3; }
-
-        @keyframes fadeIn {
-            0%   { opacity: 0; transform: scale(0.96) var(--final-rotate, rotate(0deg)); }
-            100% { opacity: 1; transform: scale(1) var(--final-rotate, rotate(0deg)); }
+        .section--dark .section-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
         }
 
-        /* Content layer sits above photos */
-        .content {
+        .section-content {
             position: relative;
             z-index: 1;
-        }
-
-        /* Header */
-        .header {
             text-align: center;
-            padding: 6rem 2rem 3rem;
+            padding: 2rem;
+            max-width: 640px;
         }
 
-        .header p.prelude {
+        /* ── Hero ── */
+        .hero-content h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(3rem, 9vw, 6rem);
+            line-height: 1.05;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+        }
+
+        .hero-content h1 span {
+            display: block;
+            font-style: italic;
+            font-size: 0.45em;
+            color: var(--blush);
+            margin: 0.3em 0;
+        }
+
+        .hero-content .prelude {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             font-weight: 300;
-            font-size: 1.2rem;
-            color: var(--sage-deep);
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 1rem;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.4);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            text-align: center;
+            animation: gentleBounce 2.5s ease-in-out infinite;
+        }
+
+        .scroll-hint span {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.6);
             margin-bottom: 0.5rem;
         }
 
-        .header h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(2rem, 8vw, 5.5rem);
-            line-height: 1.1;
-            color: var(--text);
+        .scroll-hint svg {
+            width: 20px;
+            height: 20px;
+            stroke: rgba(255,255,255,0.5);
+            fill: none;
+            stroke-width: 2;
         }
 
-        .header h1 span {
-            display: block;
-            font-style: italic;
-            font-size: 0.5em;
-            color: var(--blush-deep);
-            margin: 0.2em 0;
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
         }
 
-        .leaf-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem auto;
-            color: var(--sage);
-            font-size: 1.5rem;
-        }
-
-        .leaf-divider::before,
-        .leaf-divider::after {
-            content: '';
-            width: 50px;
-            height: 1px;
-            background: var(--sage);
-            opacity: 0.5;
-        }
-
-        /* Glass card for text sections */
+        /* ── Glass cards ── */
         .glass-card {
-            max-width: 560px;
-            margin: 3rem auto;
-            padding: 3rem 2.5rem;
-            text-align: center;
-            background: rgba(253, 249, 246, 0.88);
+            background: rgba(253, 249, 246, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 16px;
-            border: 1px solid rgba(168, 181, 162, 0.15);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+            padding: 3rem 2.5rem;
+            color: var(--text);
+        }
+
+        .section--dark .glass-card {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
         }
 
         .glass-card h2 {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 300;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             margin-bottom: 1rem;
-            color: var(--text);
         }
+
+        .section--light .glass-card h2 { color: var(--text); }
+        .section--dark .glass-card h2 { color: #fff; }
 
         .glass-card p {
-            color: var(--text-light);
-            font-size: 1rem;
-            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
         }
 
-        /* CTA Button */
-        .cta-wrap {
-            text-align: center;
-            padding: 2rem 2rem 6rem;
+        .section--light .glass-card p { color: var(--text-light); }
+        .section--dark .glass-card p { color: rgba(255,255,255,0.8); }
+
+        .divider {
+            width: 50px;
+            height: 1px;
+            margin: 1.5rem auto;
         }
 
+        .section--light .divider { background: var(--sage); opacity: 0.5; }
+        .section--dark .divider { background: rgba(255,255,255,0.3); }
+
+        /* ── CTA ── */
         .cta-btn {
             display: inline-block;
             padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, var(--sage) 0%, var(--sage-deep) 100%);
-            color: #fff;
+            background: linear-gradient(135deg, var(--blush) 0%, var(--blush-deep) 100%);
+            color: var(--text);
             text-decoration: none;
             font-family: 'Quicksand', sans-serif;
             font-weight: 500;
@@ -208,29 +192,44 @@
             letter-spacing: 0.1em;
             border-radius: 50px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(168, 181, 162, 0.35);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            margin-top: 1.5rem;
         }
 
         .cta-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(168, 181, 162, 0.5);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.3);
         }
 
-        /* Footer */
+        /* ── Transition strips between sections ── */
+        .section + .section::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ── Footer ── */
         footer {
             text-align: center;
-            padding: 2rem;
+            padding: 3rem 2rem;
+            background: var(--cream);
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             color: var(--text-light);
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
-        /* Fade animation */
+        /* ── Fade in on scroll ── */
         .fade-in {
             opacity: 0;
-            transform: translateY(25px);
-            transition: opacity 0.9s ease, transform 0.9s ease;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
         }
 
         .fade-in.visible {
@@ -238,68 +237,32 @@
             transform: translateY(0);
         }
 
-        /* Responsive */
+        /* ── Responsive ── */
         @media (max-width: 768px) {
-            .header { padding: 4rem 1.5rem 2rem; }
-            .glass-card {
-                margin: 2rem 1rem;
-                padding: 2rem 1.5rem;
-            }
-            .photo-1 { width: 45vw; }
-            .photo-2 { width: 42vw; }
-            .photo-3 { width: 40vw; }
-            .photo-4 { width: 44vw; }
-            .photo-5 { width: 46vw; }
-            .photo-6 { width: 42vw; }
+            .section { min-height: 100svh; }
+            .section-content { padding: 1.5rem; }
+            .glass-card { padding: 2rem 1.5rem; }
         }
 
         @media (max-width: 480px) {
-            .header { padding: 3rem 1rem 2rem; }
             .glass-card {
-                margin: 1.5rem 0.75rem;
                 padding: 1.5rem 1.25rem;
-                background: rgba(253, 249, 246, 0.92);
-                backdrop-filter: blur(24px);
-                -webkit-backdrop-filter: blur(24px);
+                border-radius: 12px;
             }
-            .cta-wrap { padding: 1.5rem 1rem 4rem; }
+            .glass-card p { font-size: 0.95rem; }
             .cta-btn { padding: 1rem 2rem; }
-            .photo-1 { width: 55vw; }
-            .photo-2 { width: 52vw; }
-            .photo-3 { width: 50vw; left: 15%; }
-            .photo-4 { width: 54vw; }
-            .photo-5 { width: 56vw; }
-            .photo-6 { width: 52vw; }
+            .scroll-hint { bottom: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Photo collage background -->
-    <div class="photo-bg">
-        <div class="photo photo-1" style="--final-rotate: rotate(-4deg)">
-            <img src="photos/IMG-20260311-WA0001.jpg" alt="Us">
+    <!-- 1. Hero — dark night kiss photo -->
+    <div class="section section--dark">
+        <div class="section-bg">
+            <img src="photos/IMG-20260311-WA0004.jpg" alt="Together at night">
         </div>
-        <div class="photo photo-2" style="--final-rotate: rotate(3deg)">
-            <img src="photos/IMG-20260311-WA0002.jpg" alt="Travel">
-        </div>
-        <div class="photo photo-3" style="--final-rotate: rotate(5deg)">
-            <img src="photos/IMG-20260311-WA0004.jpg" alt="Evening">
-        </div>
-        <div class="photo photo-4" style="--final-rotate: rotate(-3deg)">
-            <img src="photos/IMG-20260311-WA0005.jpg" alt="Chateau">
-        </div>
-        <div class="photo photo-5" style="--final-rotate: rotate(-6deg)">
-            <img src="photos/IMG-20260311-WA0003.jpg" alt="Night">
-        </div>
-        <div class="photo photo-6" style="--final-rotate: rotate(4deg)">
-            <img src="photos/IMG-20260311-WA0000.jpg" alt="Memories">
-        </div>
-    </div>
-
-    <!-- Content floating above -->
-    <div class="content">
-        <div class="header fade-in">
+        <div class="section-content hero-content fade-in">
             <p class="prelude">together is our favourite place to be</p>
             <h1>
                 Name
@@ -307,36 +270,84 @@
                 Name
             </h1>
         </div>
-
-        <div class="leaf-divider">&hearts;</div>
-
-        <div class="glass-card fade-in">
-            <h2>Our Honeymoon Fund</h2>
-            <p>
-                We feel so lucky to have you celebrating with us. Your love and presence
-                mean the world. If you would like to give a gift, a contribution towards
-                our honeymoon would be a dream come true.
-            </p>
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
         </div>
-
-        <div class="leaf-divider">&hearts;</div>
-
-        <div class="glass-card fade-in">
-            <h2>Help Us Create New Adventures</h2>
-            <p>
-                From wandering cobblestone streets to watching sunsets over new horizons,
-                your generosity will help us create beautiful memories to last a lifetime.
-            </p>
-        </div>
-
-        <div class="cta-wrap fade-in">
-            <a href="https://paypal.me/placeholder" class="cta-btn">Contribute to Our Honeymoon</a>
-        </div>
-
-        <footer>
-            <p>With all our love &mdash; Name & Name</p>
-        </footer>
     </div>
+
+    <!-- 2. Bruges canal — light & scenic -->
+    <div class="section section--light">
+        <div class="section-bg">
+            <img src="photos/IMG-20260311-WA0002.jpg" alt="Bruges canal">
+        </div>
+        <div class="section-content fade-in">
+            <div class="glass-card">
+                <h2>Our Honeymoon Fund</h2>
+                <div class="divider"></div>
+                <p>
+                    We feel so lucky to have you celebrating with us. Your love and
+                    presence mean the world. If you would like to give a gift, a
+                    contribution towards our honeymoon would be a dream come true.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Night selfie — dark middle section -->
+    <div class="section section--dark">
+        <div class="section-bg">
+            <img src="photos/IMG-20260311-WA0003.jpg" alt="Night lights">
+        </div>
+        <div class="section-content fade-in">
+            <div class="glass-card">
+                <h2>Help Us Create New Adventures</h2>
+                <div class="divider"></div>
+                <p>
+                    From wandering cobblestone streets to watching sunsets over new
+                    horizons, your generosity will help us create beautiful memories
+                    to last a lifetime.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Chateau — light & warm -->
+    <div class="section section--light">
+        <div class="section-bg">
+            <img src="photos/IMG-20260311-WA0005.jpg" alt="Chateau">
+        </div>
+        <div class="section-content fade-in">
+            <div class="glass-card">
+                <h2>Every Little Bit Counts</h2>
+                <div class="divider"></div>
+                <p>
+                    Whether it's a morning coffee in a Parisian caf&eacute; or a sunset
+                    boat ride, your kindness will make our honeymoon unforgettable.
+                    No amount is too small &mdash; it all means the world to us.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Polaroid selfie — CTA section -->
+    <div class="section section--dark">
+        <div class="section-bg">
+            <img src="photos/IMG-20260311-WA0001.jpg" alt="Us together">
+        </div>
+        <div class="section-content fade-in">
+            <div class="glass-card" style="text-align: center;">
+                <h2>Contribute to Our Journey</h2>
+                <div class="divider"></div>
+                <p>Thank you for being part of our story.</p>
+                <a href="https://paypal.me/placeholder" class="cta-btn">Contribute via PayPal</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>With all our love &mdash; Name & Name</p>
+    </footer>
 
     <script>
         const observer = new IntersectionObserver((entries) => {
