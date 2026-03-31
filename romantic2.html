@@ -131,6 +131,9 @@
          Fixed scattered polaroids behind glass cards
          ═══════════════════════════════════════════ -->
     <style media="screen and (min-width: 769px)">
+        /* Hide mobile photo sections on desktop */
+        .photos-top, .photos-bottom { display: none; }
+
         .scattered {
             position: fixed;
             inset: 0;
@@ -153,7 +156,7 @@
         .p5 { bottom: 8%;  left: 34%; transform: rotate(-5deg); z-index: 4; }
         .p6 { bottom: 2%;  right: 4%; transform: rotate(10deg); z-index: 2; }
 
-        .content {
+        .content, .content-lower {
             position: relative;
             z-index: 10;
         }
@@ -196,13 +199,15 @@
          Polaroids inline at top, header below them
          ═══════════════════════════════════════════ -->
     <style media="screen and (max-width: 768px)">
-        /* Photos become a scrollable scattered cluster at the top */
-        .scattered {
+        /* Hide desktop scattered layer on mobile */
+        .scattered { display: none; }
+
+        /* Shared photo cluster styles */
+        .photos-top, .photos-bottom {
             position: relative;
-            z-index: 0;
             width: 100%;
-            height: 55vh;
-            min-height: 360px;
+            height: 42vh;
+            min-height: 260px;
             overflow: hidden;
         }
 
@@ -214,16 +219,18 @@
             width: 38vw;
         }
 
-        /* Scattered across the top cluster */
-        .p1 { top: 4%;  left: 3%;   transform: rotate(-6deg);  z-index: 2; }
-        .p2 { top: 2%;  left: 33%;  transform: rotate(4deg);   z-index: 3; }
-        .p3 { top: 6%;  right: 2%;  transform: rotate(-3deg);  z-index: 1; }
-        .p4 { bottom: 4%;  left: 6%;  transform: rotate(5deg);  z-index: 1; }
-        .p5 { bottom: 2%;  left: 32%; transform: rotate(-4deg); z-index: 4; }
-        .p6 { bottom: 6%;  right: 3%; transform: rotate(8deg);  z-index: 2; }
+        /* Top cluster: 3 photos */
+        .m1 { top: 6%;   left: 3%;   transform: rotate(-6deg);  z-index: 2; }
+        .m2 { top: 4%;   left: 34%;  transform: rotate(4deg);   z-index: 3; }
+        .m3 { top: 8%;   right: 1%;  transform: rotate(-3deg);  z-index: 1; }
 
-        /* Content flows after the photos */
-        .content {
+        /* Bottom cluster: 3 photos */
+        .m4 { top: 6%;   left: 4%;   transform: rotate(5deg);   z-index: 1; }
+        .m5 { top: 3%;   left: 33%;  transform: rotate(-4deg);  z-index: 3; }
+        .m6 { top: 8%;   right: 2%;  transform: rotate(7deg);   z-index: 2; }
+
+        /* Content */
+        .content, .content-lower {
             position: relative;
             z-index: 1;
         }
@@ -261,10 +268,12 @@
 <body>
 
     <!--
-        Scattered polaroids — tossed on a surface.
-        Desktop: fixed behind glass cards.
-        Mobile: inline cluster at the top, header appears below.
+        Desktop: all 6 in .scattered (fixed behind glass cards).
+        Mobile: .photos-top (3) → header → .photos-bottom (3) → rest.
+        .scattered is hidden on mobile; .photos-top/.photos-bottom hidden on desktop.
     -->
+
+    <!-- Desktop: all 6 photos fixed behind content -->
     <div class="scattered">
         <div class="polaroid p1"><img src="photos/IMG-20260311-WA0001.jpg" alt=""></div>
         <div class="polaroid p2"><img src="photos/IMG-20260311-WA0002.jpg" alt=""></div>
@@ -272,6 +281,13 @@
         <div class="polaroid p4"><img src="photos/IMG-20260311-WA0005.jpg" alt=""></div>
         <div class="polaroid p5"><img src="photos/IMG-20260311-WA0004.jpg" alt=""></div>
         <div class="polaroid p6"><img src="photos/IMG-20260311-WA0003.jpg" alt=""></div>
+    </div>
+
+    <!-- Mobile: first 3 photos -->
+    <div class="photos-top">
+        <div class="polaroid m1"><img src="photos/IMG-20260311-WA0001.jpg" alt=""></div>
+        <div class="polaroid m2"><img src="photos/IMG-20260311-WA0002.jpg" alt=""></div>
+        <div class="polaroid m3"><img src="photos/IMG-20260311-WA0000.jpg" alt=""></div>
     </div>
 
     <div class="content">
@@ -285,7 +301,16 @@
         </div>
 
         <div class="leaf-divider">&hearts;</div>
+    </div>
 
+    <!-- Mobile: second 3 photos -->
+    <div class="photos-bottom">
+        <div class="polaroid m4"><img src="photos/IMG-20260311-WA0005.jpg" alt=""></div>
+        <div class="polaroid m5"><img src="photos/IMG-20260311-WA0004.jpg" alt=""></div>
+        <div class="polaroid m6"><img src="photos/IMG-20260311-WA0003.jpg" alt=""></div>
+    </div>
+
+    <div class="content-lower">
         <div class="glass-card fade-in">
             <h2>Our Honeymoon Fund</h2>
             <p>
