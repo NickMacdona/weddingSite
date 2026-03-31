@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Honeymoon Fund</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --water-deep: #2C4A4A;
+            --water-mid: #3B6363;
+            --water-light: #4A7C7C;
+            --water-surface: #5A9090;
+            --petal-pink: #F4C2C2;
+            --petal-blush: #E8A0A0;
+            --petal-white: #FDE8E8;
+            --text-light: rgba(255,255,255,0.92);
+            --text-soft: rgba(255,255,255,0.7);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--water-deep);
+            color: #fff;
+            font-weight: 300;
+            line-height: 1.8;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── Water surface ── */
+        .water {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(90,144,144,0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(74,124,124,0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(59,99,99,0.3) 0%, transparent 50%),
+                linear-gradient(180deg, var(--water-mid) 0%, var(--water-deep) 100%);
+        }
+
+        /* Animated ripples */
+        .ripple {
+            position: fixed;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.06);
+            pointer-events: none;
+            z-index: 1;
+            animation: rippleExpand var(--duration, 8s) ease-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        .ripple-1 { width: 300px; height: 300px; top: 15%; left: 10%; --duration: 9s; --delay: 0s; }
+        .ripple-2 { width: 200px; height: 200px; top: 60%; right: 15%; --duration: 7s; --delay: 2s; }
+        .ripple-3 { width: 250px; height: 250px; bottom: 20%; left: 40%; --duration: 11s; --delay: 4s; }
+        .ripple-4 { width: 180px; height: 180px; top: 35%; right: 30%; --duration: 8s; --delay: 1s; }
+        .ripple-5 { width: 350px; height: 350px; top: 70%; left: 5%; --duration: 10s; --delay: 3s; }
+
+        @keyframes rippleExpand {
+            0%   { transform: scale(0.3); opacity: 0; }
+            30%  { opacity: 1; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        /* ── Cherry blossom petals ── */
+        .petal {
+            position: fixed;
+            z-index: 2;
+            pointer-events: none;
+            border-radius: 50% 0 50% 0;
+            opacity: 0;
+            animation: petalFloat var(--drift-time, 20s) ease-in-out infinite;
+            animation-delay: var(--petal-delay, 0s);
+        }
+
+        @keyframes petalFloat {
+            0% {
+                opacity: 0;
+                transform: translate(0, -20px) rotate(0deg) scale(0.8);
+            }
+            10% { opacity: var(--petal-opacity, 0.7); }
+            50% {
+                transform: translate(var(--drift-x, 30px), var(--drift-y, 40px)) rotate(180deg) scale(1);
+            }
+            90% { opacity: var(--petal-opacity, 0.7); }
+            100% {
+                opacity: 0;
+                transform: translate(var(--drift-x2, -20px), var(--drift-y2, 20px)) rotate(360deg) scale(0.8);
+            }
+        }
+
+        /* Individual petals — scattered, various sizes */
+        .petal-1  { width: 18px; height: 14px; background: var(--petal-pink);  top: 8%;  left: 25%; --drift-time: 18s; --petal-delay: 0s;   --drift-x: 40px; --drift-y: 30px; --drift-x2: -25px; --drift-y2: 15px; --petal-opacity: 0.6; }
+        .petal-2  { width: 12px; height: 9px;  background: var(--petal-white); top: 20%; left: 65%; --drift-time: 22s; --petal-delay: 2s;   --drift-x: -30px; --drift-y: 25px; --drift-x2: 20px; --drift-y2: -10px; --petal-opacity: 0.5; }
+        .petal-3  { width: 15px; height: 11px; background: var(--petal-blush); top: 45%; left: 15%; --drift-time: 16s; --petal-delay: 5s;   --drift-x: 50px; --drift-y: -20px; --drift-x2: -15px; --drift-y2: 30px; --petal-opacity: 0.7; }
+        .petal-4  { width: 20px; height: 15px; background: var(--petal-pink);  top: 35%; left: 80%; --drift-time: 25s; --petal-delay: 1s;   --drift-x: -45px; --drift-y: 35px; --drift-x2: 30px; --drift-y2: -20px; --petal-opacity: 0.55; }
+        .petal-5  { width: 10px; height: 7px;  background: var(--petal-white); top: 70%; left: 45%; --drift-time: 19s; --petal-delay: 8s;   --drift-x: 25px; --drift-y: -30px; --drift-x2: -35px; --drift-y2: 25px; --petal-opacity: 0.45; }
+        .petal-6  { width: 16px; height: 12px; background: var(--petal-blush); top: 55%; left: 5%;  --drift-time: 21s; --petal-delay: 3s;   --drift-x: 60px; --drift-y: 20px; --drift-x2: -10px; --drift-y2: -15px; --petal-opacity: 0.6; }
+        .petal-7  { width: 14px; height: 10px; background: var(--petal-pink);  top: 15%; left: 90%; --drift-time: 17s; --petal-delay: 6s;   --drift-x: -35px; --drift-y: 40px; --drift-x2: 15px; --drift-y2: 20px; --petal-opacity: 0.5; }
+        .petal-8  { width: 11px; height: 8px;  background: var(--petal-white); top: 80%; left: 70%; --drift-time: 23s; --petal-delay: 4s;   --drift-x: 20px; --drift-y: -25px; --drift-x2: -40px; --drift-y2: 10px; --petal-opacity: 0.4; }
+        .petal-9  { width: 17px; height: 13px; background: var(--petal-pink);  top: 90%; left: 30%; --drift-time: 20s; --petal-delay: 7s;   --drift-x: -20px; --drift-y: -35px; --drift-x2: 45px; --drift-y2: -5px; --petal-opacity: 0.65; }
+        .petal-10 { width: 13px; height: 10px; background: var(--petal-blush); top: 5%;  left: 50%; --drift-time: 15s; --petal-delay: 9s;   --drift-x: 35px; --drift-y: 45px; --drift-x2: -25px; --drift-y2: 30px; --petal-opacity: 0.5; }
+        .petal-11 { width: 9px;  height: 7px;  background: var(--petal-white); top: 65%; left: 88%; --drift-time: 24s; --petal-delay: 2.5s; --drift-x: -50px; --drift-y: 15px; --drift-x2: 10px; --drift-y2: -25px; --petal-opacity: 0.4; }
+        .petal-12 { width: 19px; height: 14px; background: var(--petal-pink);  top: 50%; left: 35%; --drift-time: 18s; --petal-delay: 10s;  --drift-x: -15px; --drift-y: -40px; --drift-x2: 35px; --drift-y2: 20px; --petal-opacity: 0.55; }
+
+        /* ── Floating photos ── */
+        .floating-photos {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .float-photo {
+            position: absolute;
+            background: #fff;
+            padding: 0.5rem 0.5rem 1.8rem;
+            box-shadow:
+                0 5px 25px rgba(0,0,0,0.25),
+                0 0 60px rgba(0,0,0,0.08);
+            animation: bobFloat var(--bob-time, 6s) ease-in-out infinite;
+            animation-delay: var(--bob-delay, 0s);
+        }
+
+        .float-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .float-photo .caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            text-align: center;
+            padding-top: 0.4rem;
+            font-size: 0.7rem;
+            color: #999;
+        }
+
+        /* Subtle reflection on water */
+        .float-photo::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 10%;
+            right: 10%;
+            height: 8px;
+            background: rgba(0,0,0,0.12);
+            filter: blur(4px);
+            border-radius: 50%;
+        }
+
+        @keyframes bobFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(var(--rot, 0deg));
+            }
+            25% {
+                transform: translate(var(--bob-x1, 5px), var(--bob-y1, -8px)) rotate(calc(var(--rot, 0deg) + 1.5deg));
+            }
+            50% {
+                transform: translate(var(--bob-x2, -3px), var(--bob-y2, 6px)) rotate(calc(var(--rot, 0deg) - 1deg));
+            }
+            75% {
+                transform: translate(var(--bob-x3, 4px), var(--bob-y3, -4px)) rotate(calc(var(--rot, 0deg) + 0.5deg));
+            }
+        }
+
+        /* Photo positions — hugging edges, varied sizes */
+        .fp-1 {
+            width: clamp(130px, 15vw, 200px);
+            top: 4%; left: 2%;
+            --rot: -7deg; --bob-time: 7s; --bob-delay: 0s;
+            --bob-x1: 6px; --bob-y1: -8px; --bob-x2: -4px; --bob-y2: 5px; --bob-x3: 3px; --bob-y3: -3px;
+        }
+        .fp-2 {
+            width: clamp(120px, 14vw, 180px);
+            top: 8%; right: 3%;
+            --rot: 5deg; --bob-time: 8s; --bob-delay: 1.5s;
+            --bob-x1: -5px; --bob-y1: -6px; --bob-x2: 7px; --bob-y2: 4px; --bob-x3: -3px; --bob-y3: -5px;
+        }
+        .fp-3 {
+            width: clamp(140px, 16vw, 210px);
+            top: 38%; left: -1%;
+            --rot: 10deg; --bob-time: 9s; --bob-delay: 0.8s;
+            --bob-x1: 8px; --bob-y1: -5px; --bob-x2: -6px; --bob-y2: 7px; --bob-x3: 5px; --bob-y3: -4px;
+        }
+        .fp-4 {
+            width: clamp(115px, 13vw, 175px);
+            top: 42%; right: 1%;
+            --rot: -4deg; --bob-time: 6.5s; --bob-delay: 2s;
+            --bob-x1: -4px; --bob-y1: -7px; --bob-x2: 5px; --bob-y2: 3px; --bob-x3: -6px; --bob-y3: -2px;
+        }
+        .fp-5 {
+            width: clamp(135px, 15vw, 195px);
+            bottom: 14%; left: 3%;
+            --rot: -9deg; --bob-time: 7.5s; --bob-delay: 3s;
+            --bob-x1: 5px; --bob-y1: -9px; --bob-x2: -7px; --bob-y2: 6px; --bob-x3: 4px; --bob-y3: -5px;
+        }
+        .fp-6 {
+            width: clamp(125px, 14vw, 185px);
+            bottom: 5%; right: 4%;
+            --rot: 8deg; --bob-time: 8.5s; --bob-delay: 1s;
+            --bob-x1: -6px; --bob-y1: -5px; --bob-x2: 4px; --bob-y2: 8px; --bob-x3: -3px; --bob-y3: -6px;
+        }
+
+        /* ── Content layer ── */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            padding: 6rem 2rem 2rem;
+        }
+
+        .header p.prelude {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: var(--petal-pink);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            line-height: 1.1;
+            color: var(--text-light);
+            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+        }
+
+        .header h1 span {
+            display: block;
+            font-style: italic;
+            font-size: 0.5em;
+            color: var(--petal-pink);
+            margin: 0.2em 0;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2.5rem auto;
+            color: var(--petal-pink);
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: rgba(244, 194, 194, 0.4);
+        }
+
+        /* Glass card on water */
+        .glass-card {
+            max-width: 540px;
+            margin: 2rem auto;
+            padding: 2.5rem 2.5rem;
+            text-align: center;
+            background: rgba(44, 74, 74, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+        }
+
+        .glass-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .glass-card p {
+            color: var(--text-soft);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* CTA */
+        .cta-wrap {
+            text-align: center;
+            padding: 2rem 2rem 6rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--petal-pink) 0%, var(--petal-blush) 100%);
+            color: var(--water-deep);
+            text-decoration: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(244, 194, 194, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(244, 194, 194, 0.5);
+            background: linear-gradient(135deg, #F9D4D4 0%, var(--petal-pink) 100%);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--text-soft);
+            font-size: 1rem;
+        }
+
+        /* Fade in */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .float-photo { padding: 0.35rem 0.35rem 1.2rem; }
+            .fp-1 { width: 110px; top: 2%;  left: -3%; }
+            .fp-2 { width: 100px; top: 5%;  right: -2%; }
+            .fp-3 { width: 115px; top: 34%; left: -4%; }
+            .fp-4 { width: 95px;  top: 40%; right: -2%; }
+            .fp-5 { width: 110px; bottom: 16%; left: -1%; }
+            .fp-6 { width: 100px; bottom: 4%;  right: -3%; }
+            .glass-card { margin: 2rem 1rem; padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Water surface -->
+    <div class="water"></div>
+
+    <!-- Ripples -->
+    <div class="ripple ripple-1"></div>
+    <div class="ripple ripple-2"></div>
+    <div class="ripple ripple-3"></div>
+    <div class="ripple ripple-4"></div>
+    <div class="ripple ripple-5"></div>
+
+    <!-- Blossom petals -->
+    <div class="petal petal-1"></div>
+    <div class="petal petal-2"></div>
+    <div class="petal petal-3"></div>
+    <div class="petal petal-4"></div>
+    <div class="petal petal-5"></div>
+    <div class="petal petal-6"></div>
+    <div class="petal petal-7"></div>
+    <div class="petal petal-8"></div>
+    <div class="petal petal-9"></div>
+    <div class="petal petal-10"></div>
+    <div class="petal petal-11"></div>
+    <div class="petal petal-12"></div>
+
+    <!-- Floating photos on the water -->
+    <div class="floating-photos">
+        <div class="float-photo fp-1">
+            <img src="photos/IMG-20260311-WA0001.jpg" alt="Us">
+            <div class="caption">always smiling</div>
+        </div>
+        <div class="float-photo fp-2">
+            <img src="photos/IMG-20260311-WA0002.jpg" alt="Travel">
+            <div class="caption">exploring together</div>
+        </div>
+        <div class="float-photo fp-3">
+            <img src="photos/IMG-20260311-WA0004.jpg" alt="Evening">
+            <div class="caption">evening lights</div>
+        </div>
+        <div class="float-photo fp-4">
+            <img src="photos/IMG-20260311-WA0005.jpg" alt="Chateau">
+            <div class="caption">adventures await</div>
+        </div>
+        <div class="float-photo fp-5">
+            <img src="photos/IMG-20260311-WA0003.jpg" alt="Night">
+            <div class="caption">city nights</div>
+        </div>
+        <div class="float-photo fp-6">
+            <img src="photos/IMG-20260311-WA0000.jpg" alt="Memories">
+            <div class="caption">our memories</div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="header fade-in">
+            <p class="prelude">together is our favourite place to be</p>
+            <h1>
+                Name
+                <span>&</span>
+                Name
+            </h1>
+        </div>
+
+        <div class="divider">&#10047;</div>
+
+        <div class="glass-card fade-in">
+            <h2>Our Honeymoon Fund</h2>
+            <p>
+                We feel so lucky to have you celebrating with us. Your love and presence
+                mean the world. If you would like to give a gift, a contribution towards
+                our honeymoon would be a dream come true.
+            </p>
+        </div>
+
+        <div class="divider">&#10047;</div>
+
+        <div class="glass-card fade-in">
+            <h2>Help Us Create New Adventures</h2>
+            <p>
+                From wandering cobblestone streets to watching sunsets over new horizons,
+                your generosity will help us create beautiful memories to last a lifetime.
+            </p>
+        </div>
+
+        <div class="cta-wrap fade-in">
+            <a href="https://paypal.me/placeholder" class="cta-btn">Contribute to Our Honeymoon</a>
+        </div>
+
+        <footer>
+            <p>With all our love &mdash; Name & Name</p>
+        </footer>
+    </div>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
