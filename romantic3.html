@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Honeymoon Fund</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --sage: #B7C4A1;
+            --sage-dark: #8A9E6E;
+            --moss: #6B7F5A;
+            --fern: #4A5E3C;
+            --blush: #E8D5CC;
+            --stone: #D4CFC8;
+            --linen: #F6F3EE;
+            --cream: #FDFCF9;
+            --text: #3B3B35;
+            --text-soft: #6E6E64;
+            --text-faint: #9E9E92;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100svh;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero-date {
+            font-family: 'Jost', sans-serif;
+            font-weight: 200;
+            font-size: 0.75rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(2.8rem, 10vw, 4.5rem);
+            line-height: 1.05;
+            color: var(--text);
+            margin-bottom: 0.4em;
+        }
+
+        .hero h1 .amp {
+            display: block;
+            font-style: italic;
+            font-size: 0.45em;
+            color: var(--sage-dark);
+            margin: 0.4em 0;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 1.15rem;
+            color: var(--text-soft);
+            margin-top: 1.5rem;
+        }
+
+        /* ── Dividers ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .divider-line {
+            width: 1px;
+            height: 60px;
+            background: var(--stone);
+        }
+
+        .divider-leaf {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .divider-leaf::before,
+        .divider-leaf::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--stone);
+        }
+
+        .divider-leaf span {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            font-weight: 300;
+        }
+
+        /* ── Photo sections ── */
+        .photo-single {
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .photo-single img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .photo-pair {
+            display: flex;
+            gap: 1rem;
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .photo-pair img {
+            flex: 1;
+            width: 0;
+            height: auto;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ── Text sections ── */
+        .text-section {
+            text-align: center;
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 3.5rem 2rem;
+        }
+
+        .text-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(1.6rem, 5vw, 2.2rem);
+            color: var(--text);
+            margin-bottom: 1.2rem;
+            line-height: 1.25;
+        }
+
+        .text-section p {
+            font-size: 0.95rem;
+            color: var(--text-soft);
+            line-height: 1.85;
+        }
+
+        /* ── CTA ── */
+        .cta-section {
+            text-align: center;
+            padding: 2rem 2rem 5rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 0.9rem 2.8rem;
+            border: 1px solid var(--moss);
+            color: var(--moss);
+            text-decoration: none;
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: var(--moss);
+            color: var(--cream);
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--stone);
+        }
+
+        footer p {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 1rem;
+            color: var(--text-faint);
+        }
+
+        /* ── Fade ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Desktop: widen layout ── */
+        @media (min-width: 769px) {
+            .photo-single { max-width: 480px; }
+            .photo-pair { max-width: 680px; }
+            .text-section { max-width: 500px; padding: 4.5rem 2rem; }
+            .divider-line { height: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <section class="hero fade-in">
+        <p class="hero-date">A celebration of love</p>
+        <h1>
+            Name
+            <span class="amp">&</span>
+            Name
+        </h1>
+        <p class="hero-sub">our honeymoon fund</p>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- Photo pair -->
+    <div class="photo-pair fade-in">
+        <img src="photos/IMG-20260311-WA0002.jpg" alt="">
+        <img src="photos/IMG-20260311-WA0001.jpg" alt="">
+    </div>
+
+    <!-- Text -->
+    <div class="text-section fade-in">
+        <h2>Your presence is our greatest gift</h2>
+        <p>
+            We feel so lucky to have you celebrating with us.
+            If you would like to give a gift, a contribution
+            towards our honeymoon would mean the world.
+        </p>
+    </div>
+
+    <div class="divider-leaf fade-in"><span>&#10043;</span></div>
+
+    <!-- Single photo -->
+    <div class="photo-single fade-in">
+        <img src="photos/IMG-20260311-WA0004.jpg" alt="">
+    </div>
+
+    <!-- Text -->
+    <div class="text-section fade-in">
+        <h2>Help us create<br>new adventures</h2>
+        <p>
+            From wandering cobblestone streets to watching sunsets
+            over new horizons, your generosity will help us create
+            beautiful memories to last a lifetime.
+        </p>
+    </div>
+
+    <div class="divider-leaf fade-in"><span>&#10043;</span></div>
+
+    <!-- Photo pair -->
+    <div class="photo-pair fade-in">
+        <img src="photos/IMG-20260311-WA0005.jpg" alt="">
+        <img src="photos/IMG-20260311-WA0003.jpg" alt="">
+    </div>
+
+    <!-- Text -->
+    <div class="text-section fade-in">
+        <h2>Every little bit counts</h2>
+        <p>
+            Whether it's a morning coffee in a Parisian caf&eacute;
+            or a sunset boat ride, your kindness will make our
+            honeymoon unforgettable.
+        </p>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- Single photo -->
+    <div class="photo-single fade-in">
+        <img src="photos/IMG-20260311-WA0000-h.jpg" alt="">
+    </div>
+
+    <!-- CTA -->
+    <div class="text-section">
+        <h2>Contribute to our journey</h2>
+        <p style="margin-bottom: 2rem;">Thank you for being part of our story.</p>
+    </div>
+
+    <div class="cta-section fade-in">
+        <a href="https://paypal.me/placeholder" class="cta-btn">Contribute via PayPal</a>
+    </div>
+
+    <footer>
+        <p>With love &mdash; Name & Name</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
