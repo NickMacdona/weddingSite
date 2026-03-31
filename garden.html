@@ -15,9 +15,10 @@
             --warm-stone: #C4B9A0;
             --charcoal: #5E5E56;
             --charcoal-dark: #3E3E38;
-            --blush: #E8D8CE;
-            --sage-hint: #C5CEBC;
-            --petal: #DCCDC4;
+            --green: #A8B5A2;
+            --pink: #C9A3A0;
+            --purple: #B8AFC9;
+            --yellow: #F2E6B3;
         }
 
         body {
@@ -72,7 +73,7 @@
             display: block;
             font-family: 'Great Vibes', cursive;
             font-size: 1.8rem;
-            color: var(--warm-stone);
+            color: var(--pink);
             margin: 0.3em 0;
             font-weight: 400;
         }
@@ -91,8 +92,9 @@
         .rule {
             width: 1px;
             height: 60px;
-            background: var(--cream);
+            background: var(--yellow);
             margin: 0 auto;
+            opacity: 0.7;
         }
 
         .ornament {
@@ -124,8 +126,10 @@
             width: 3px;
             height: 3px;
             border-radius: 50%;
-            background: var(--warm-stone);
         }
+
+        .dot--pink { background: var(--pink); }
+        .dot--purple { background: var(--purple); }
 
         /* ── Sections ── */
         .section {
@@ -146,10 +150,13 @@
         .section .script-accent {
             font-family: 'Great Vibes', cursive;
             font-size: 1.3rem;
-            color: var(--warm-stone);
             display: block;
             margin-bottom: 1rem;
         }
+
+        .script-accent--green { color: var(--green); }
+        .script-accent--pink { color: var(--pink); }
+        .script-accent--purple { color: var(--purple); }
 
         .section p {
             font-family: 'Jost', sans-serif;
@@ -171,7 +178,7 @@
             display: inline-block;
             padding: 0.85rem 2.8rem;
             background: transparent;
-            border: 1px solid var(--warm-stone);
+            border: 1px solid var(--green);
             color: var(--charcoal);
             text-decoration: none;
             font-family: 'Jost', sans-serif;
@@ -183,8 +190,8 @@
         }
 
         .cta a:hover {
-            background: var(--charcoal-dark);
-            border-color: var(--charcoal-dark);
+            background: var(--green);
+            border-color: var(--green);
             color: var(--ivory);
         }
 
@@ -242,22 +249,22 @@
 
         <div class="rule"></div>
 
-        <!-- Botanical sprig divider -->
+        <!-- Botanical sprig divider — green -->
         <div class="ornament fade">
             <svg width="80" height="40" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g stroke="#8B8B78" stroke-width="0.6">
+                <g stroke="#A8B5A2" stroke-width="0.6">
                     <path d="M40,38 Q40,20 38,10 Q37,5 40,2 Q43,5 42,10 Q40,20 40,38"/>
                     <path d="M38,22 Q30,18 25,20 M42,22 Q50,18 55,20"/>
                     <path d="M38,14 Q32,10 28,12 M42,14 Q48,10 52,12"/>
                     <path d="M25,20 Q27,17 30,18 M55,20 Q53,17 50,18"/>
                     <path d="M28,12 Q30,10 32,11 M52,12 Q50,10 48,11"/>
-                    <circle cx="40" cy="2" r="1.5" stroke-width="0.5"/>
+                    <circle cx="40" cy="2" r="1.5" stroke-width="0.5" stroke="#C9A3A0"/>
                 </g>
             </svg>
         </div>
 
         <div class="section fade">
-            <span class="script-accent">a gift of memories</span>
+            <span class="script-accent script-accent--green">a gift of memories</span>
             <h2>Your presence is<br>our greatest gift</h2>
             <p>
                 We feel so blessed to have you celebrating with us
@@ -267,10 +274,10 @@
             </p>
         </div>
 
-        <div class="hr-line fade"><span class="dot"></span></div>
+        <div class="hr-line fade"><span class="dot dot--pink"></span></div>
 
         <div class="section fade">
-            <span class="script-accent">wanderlust</span>
+            <span class="script-accent script-accent--pink">wanderlust</span>
             <h2>Help us create<br>new adventures</h2>
             <p>
                 From wandering cobblestone streets to quiet
@@ -280,10 +287,10 @@
             </p>
         </div>
 
-        <div class="hr-line fade"><span class="dot"></span></div>
+        <div class="hr-line fade"><span class="dot dot--purple"></span></div>
 
         <div class="section fade">
-            <span class="script-accent">with gratitude</span>
+            <span class="script-accent script-accent--purple">with gratitude</span>
             <h2>Every little<br>bit counts</h2>
             <p>
                 Whether it's a morning coffee in a sun-dappled
@@ -295,14 +302,15 @@
 
         <div class="rule"></div>
 
+        <!-- Botanical sprig divider — purple -->
         <div class="ornament fade">
             <svg width="80" height="40" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g stroke="#8B8B78" stroke-width="0.6">
+                <g stroke="#B8AFC9" stroke-width="0.6">
                     <path d="M40,38 Q40,20 38,10 Q37,5 40,2 Q43,5 42,10 Q40,20 40,38"/>
                     <path d="M38,22 Q30,18 25,20 M42,22 Q50,18 55,20"/>
                     <path d="M38,14 Q32,10 28,12 M42,14 Q48,10 52,12"/>
                     <path d="M25,20 Q27,17 30,18 M55,20 Q53,17 50,18"/>
-                    <circle cx="40" cy="2" r="1.5" stroke-width="0.5"/>
+                    <circle cx="40" cy="2" r="1.5" stroke-width="0.5" stroke="#F2E6B3"/>
                 </g>
             </svg>
         </div>
