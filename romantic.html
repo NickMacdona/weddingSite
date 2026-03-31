@@ -70,37 +70,16 @@
         .polaroid:nth-child(2) { z-index: 2; }
         .polaroid:nth-child(3) { z-index: 3; }
 
-        /* ── Pile positions — centered behind content ── */
-        .pile-1 { top: 3%;  left: 50%; transform: translateX(-80%); }
-        .pile-2 { top: 5%;  left: 50%; transform: translateX(20%); }
-        .pile-3 { top: 32%; left: 50%; transform: translateX(-60%); }
-        .pile-4 { top: 35%; left: 50%; transform: translateX(40%); }
-        .pile-5 { bottom: 8%; left: 50%; transform: translateX(-50%); }
+        /* ── Single central pile ── */
+        .pile { top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
-        /* Pile 1: top-left — 3 photos */
-        .pile-1 .polaroid:nth-child(1) { --rot: 8deg;  top: 6px; left: 10px; }
-        .pile-1 .polaroid:nth-child(2) { --rot: -5deg; top: -4px; left: -8px; }
-        .pile-1 .polaroid:nth-child(3) { --rot: 2deg;  top: 2px; left: 4px; }
-
-        /* Pile 2: top-right */
-        .pile-2 .polaroid:nth-child(1) { --rot: -6deg; top: 8px; left: -6px; }
-        .pile-2 .polaroid:nth-child(2) { --rot: 4deg;  top: -2px; left: 10px; }
-        .pile-2 .polaroid:nth-child(3) { --rot: -1deg; top: 3px; left: 2px; }
-
-        /* Pile 3: middle-left */
-        .pile-3 .polaroid:nth-child(1) { --rot: 5deg;  top: -6px; left: 8px; }
-        .pile-3 .polaroid:nth-child(2) { --rot: -7deg; top: 4px; left: -4px; }
-        .pile-3 .polaroid:nth-child(3) { --rot: 3deg;  top: 0; left: 6px; }
-
-        /* Pile 4: middle-right */
-        .pile-4 .polaroid:nth-child(1) { --rot: -4deg; top: 6px; left: 6px; }
-        .pile-4 .polaroid:nth-child(2) { --rot: 7deg;  top: -8px; left: -6px; }
-        .pile-4 .polaroid:nth-child(3) { --rot: -2deg; top: 2px; left: 0; }
-
-        /* Pile 5: bottom-center */
-        .pile-5 .polaroid:nth-child(1) { --rot: 6deg;  top: -4px; left: -10px; }
-        .pile-5 .polaroid:nth-child(2) { --rot: -3deg; top: 8px; left: 8px; }
-        .pile-5 .polaroid:nth-child(3) { --rot: 1deg;  top: 2px; left: -2px; }
+        /* Single pile — 6 photos, wide rotation spread */
+        .pile .polaroid:nth-child(1) { --rot: -18deg; top: 15px;  left: -20px; z-index: 1; }
+        .pile .polaroid:nth-child(2) { --rot: 12deg;  top: -12px; left: 18px;  z-index: 2; }
+        .pile .polaroid:nth-child(3) { --rot: -7deg;  top: 8px;   left: -10px; z-index: 3; }
+        .pile .polaroid:nth-child(4) { --rot: 22deg;  top: -8px;  left: 12px;  z-index: 4; }
+        .pile .polaroid:nth-child(5) { --rot: -3deg;  top: 5px;   left: -5px;  z-index: 5; }
+        .pile .polaroid:nth-child(6) { --rot: 5deg;   top: -2px;  left: 6px;   z-index: 6; }
 
         /* ── Content layer ── */
         .content {
@@ -235,11 +214,7 @@
             .header { padding: 4rem 1.5rem 2rem; }
             .glass-card { margin: 2rem 1rem; padding: 2rem 1.5rem; }
 
-            .pile-1 { transform: translateX(-70%); }
-            .pile-2 { transform: translateX(10%); }
-            .pile-3 { transform: translateX(-50%); }
-            .pile-4 { transform: translateX(30%); }
-            .pile-5 { transform: translateX(-50%); }
+            .polaroid { width: clamp(130px, 24vw, 190px); }
         }
 
         @media (max-width: 480px) {
@@ -255,11 +230,7 @@
             .cta-wrap { padding: 1.5rem 1rem 4rem; }
             .cta-btn { padding: 1rem 2rem; }
 
-            .pile-1 { transform: translateX(-65%); }
-            .pile-2 { transform: translateX(5%); }
-            .pile-3 { transform: translateX(-45%); }
-            .pile-4 { transform: translateX(20%); }
-            .pile-5 { transform: translateX(-50%); }
+            .polaroid { width: clamp(110px, 30vw, 150px); }
         }
     </style>
 </head>
@@ -272,39 +243,17 @@
     -->
     <div class="piles">
 
-        <!-- Pile 1: top-left -->
-        <div class="pile pile-1">
+        <!--
+            Single pile — last photo is on top.
+            Reorder these divs to change which photo shows.
+        -->
+        <div class="pile">
+            <div class="polaroid"><img src="photos/IMG-20260311-WA0000.jpg" alt=""></div>
             <div class="polaroid"><img src="photos/IMG-20260311-WA0003.jpg" alt=""></div>
             <div class="polaroid"><img src="photos/IMG-20260311-WA0005.jpg" alt=""></div>
+            <div class="polaroid"><img src="photos/IMG-20260311-WA0004.jpg" alt=""></div>
             <div class="polaroid"><img src="photos/IMG-20260311-WA0001.jpg" alt=""></div>
-        </div>
-
-        <!-- Pile 2: top-right -->
-        <div class="pile pile-2">
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0000.jpg" alt=""></div>
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0004.jpg" alt=""></div>
             <div class="polaroid"><img src="photos/IMG-20260311-WA0002.jpg" alt=""></div>
-        </div>
-
-        <!-- Pile 3: middle-left -->
-        <div class="pile pile-3">
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0002.jpg" alt=""></div>
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0001.jpg" alt=""></div>
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0004.jpg" alt=""></div>
-        </div>
-
-        <!-- Pile 4: middle-right -->
-        <div class="pile pile-4">
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0005.jpg" alt=""></div>
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0003.jpg" alt=""></div>
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0000.jpg" alt=""></div>
-        </div>
-
-        <!-- Pile 5: bottom-center -->
-        <div class="pile pile-5">
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0004.jpg" alt=""></div>
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0000.jpg" alt=""></div>
-            <div class="polaroid"><img src="photos/IMG-20260311-WA0005.jpg" alt=""></div>
         </div>
 
     </div>
