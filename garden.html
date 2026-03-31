@@ -38,34 +38,42 @@
             padding: 0 2rem;
         }
 
-        /* ── Botanical SVG decorations ── */
-        .botanical {
-            display: block;
-            margin: 0 auto;
-            opacity: 0.35;
-        }
-
-        .botanical-corner-top {
+        /* ── Vine border frame ── */
+        .vine-frame {
             position: fixed;
-            top: -10px;
-            right: -10px;
-            width: 160px;
-            height: 160px;
-            opacity: 0.18;
+            inset: 0;
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
 
-        .botanical-corner-bottom {
-            position: fixed;
-            bottom: -10px;
-            left: -10px;
-            width: 140px;
-            height: 140px;
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: 0;
-            transform: rotate(180deg);
+        .vine-frame svg {
+            position: absolute;
+        }
+
+        .vine-top {
+            top: 0; left: 0;
+            width: 100%; height: 140px;
+        }
+
+        .vine-bottom {
+            bottom: 0; left: 0;
+            width: 100%; height: 140px;
+        }
+
+        .vine-left {
+            top: 0; left: 0;
+            width: 100px; height: 100%;
+        }
+
+        .vine-right {
+            top: 0; right: 0;
+            width: 100px; height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .vine-left, .vine-right { width: 60px; }
+            .vine-top, .vine-bottom { height: 100px; }
         }
 
         /* ── Hero ── */
@@ -259,36 +267,149 @@
 </head>
 <body>
 
-    <!-- Corner botanicals — fine line florals -->
-    <svg class="botanical-corner-top" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#8B8B78" stroke-width="0.5" opacity="0.7">
-            <path d="M200,0 Q180,30 160,25 Q140,20 145,45 Q148,60 130,55 Q115,50 120,70"/>
-            <path d="M170,0 Q165,20 150,18 Q135,16 138,35 Q140,48 125,45"/>
-            <path d="M200,30 Q185,40 175,35 Q160,28 158,48"/>
-            <path d="M155,25 Q150,35 142,38 M142,38 Q148,42 145,50"/>
-            <path d="M130,55 Q125,62 118,58 Q112,54 115,65 Q117,72 108,70"/>
-            <path d="M200,60 Q190,55 182,60 Q175,65 178,52"/>
-            <!-- Small flower -->
-            <circle cx="145" cy="45" r="3" stroke-width="0.4"/>
-            <circle cx="120" cy="70" r="2.5" stroke-width="0.4"/>
-            <circle cx="178" cy="52" r="2" stroke-width="0.4"/>
-            <!-- Leaves -->
-            <path d="M160,25 Q155,20 158,15" stroke-width="0.4"/>
-            <path d="M150,18 Q145,12 148,8" stroke-width="0.4"/>
-            <path d="M138,35 Q132,30 135,25" stroke-width="0.4"/>
-        </g>
-    </svg>
+    <!-- Vine border frame -->
+    <div class="vine-frame">
 
-    <svg class="botanical-corner-bottom" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#8B8B78" stroke-width="0.5" opacity="0.6">
-            <path d="M200,0 Q180,30 160,25 Q140,20 145,45 Q148,60 130,55"/>
-            <path d="M170,0 Q165,20 150,18 Q135,16 138,35"/>
-            <path d="M200,30 Q185,40 175,35 Q160,28 158,48"/>
-            <circle cx="145" cy="45" r="3" stroke-width="0.4"/>
-            <circle cx="158" cy="48" r="2" stroke-width="0.4"/>
-            <path d="M160,25 Q155,20 158,15" stroke-width="0.4"/>
-        </g>
-    </svg>
+        <!-- Top vine — flows left to right with blooms -->
+        <svg class="vine-top" viewBox="0 0 1000 140" preserveAspectRatio="xMidYMid meet" fill="none">
+            <g stroke="#9B9B88" stroke-width="0.7" opacity="0.28">
+                <!-- Main vine -->
+                <path d="M-10,80 Q60,85 120,60 Q180,35 250,50 Q320,65 380,40 Q440,15 520,35 Q600,55 680,30 Q740,12 800,40 Q860,65 940,45 Q980,35 1010,50"/>
+                <!-- Secondary tendrils -->
+                <path d="M80,68 Q70,45 85,30 Q95,20 88,10"/>
+                <path d="M200,48 Q210,30 195,18 Q185,10 192,2"/>
+                <path d="M350,48 Q340,28 355,15"/>
+                <path d="M520,38 Q530,20 515,8"/>
+                <path d="M680,28 Q670,12 685,4"/>
+                <path d="M850,52 Q840,30 855,18"/>
+                <!-- Downward tendrils -->
+                <path d="M150,55 Q160,75 145,90 Q135,100 142,115"/>
+                <path d="M450,28 Q460,48 445,62 Q438,70 445,82"/>
+                <path d="M750,32 Q760,55 748,68"/>
+                <!-- Leaves — small paired curves -->
+                <path d="M85,30 Q75,25 80,18 M85,30 Q95,28 90,20" stroke-width="0.5"/>
+                <path d="M195,18 Q185,14 188,6 M195,18 Q205,16 200,8" stroke-width="0.5"/>
+                <path d="M355,15 Q345,10 350,4 M355,15 Q365,12 360,5" stroke-width="0.5"/>
+                <path d="M515,8 Q508,3 512,-2 M515,8 Q525,5 520,0" stroke-width="0.5"/>
+                <path d="M145,90 Q135,85 138,78 M145,90 Q155,88 150,80" stroke-width="0.5"/>
+                <path d="M445,62 Q435,58 440,50 M445,62 Q455,60 450,52" stroke-width="0.5"/>
+                <path d="M685,4 Q678,0 682,-5 M685,4 Q695,2 690,-3" stroke-width="0.5"/>
+                <path d="M855,18 Q848,12 852,6 M855,18 Q865,15 860,8" stroke-width="0.5"/>
+                <!-- Blooms — small 5-petal flowers -->
+                <circle cx="88" cy="10" r="4" stroke-width="0.45"/>
+                <circle cx="88" cy="10" r="1.2" stroke-width="0.3"/>
+                <circle cx="192" cy="2" r="3.5" stroke-width="0.45"/>
+                <circle cx="192" cy="2" r="1" stroke-width="0.3"/>
+                <circle cx="142" cy="115" r="4.5" stroke-width="0.45"/>
+                <circle cx="142" cy="115" r="1.5" stroke-width="0.3"/>
+                <circle cx="445" cy="82" r="3.5" stroke-width="0.45"/>
+                <circle cx="445" cy="82" r="1" stroke-width="0.3"/>
+                <circle cx="748" cy="68" r="3" stroke-width="0.45"/>
+                <circle cx="748" cy="68" r="1" stroke-width="0.3"/>
+                <!-- Petal lines on larger blooms -->
+                <path d="M88,6 L88,14 M84,10 L92,10 M85,7 L91,13 M91,7 L85,13" stroke-width="0.25"/>
+                <path d="M142,111 L142,119 M138,115 L146,115" stroke-width="0.25"/>
+                <!-- Small buds -->
+                <ellipse cx="350" cy="48" rx="2" ry="3" stroke-width="0.4" transform="rotate(-15 350 48)"/>
+                <ellipse cx="600" cy="55" rx="2" ry="3" stroke-width="0.4" transform="rotate(10 600 55)"/>
+                <ellipse cx="940" cy="45" rx="2" ry="2.5" stroke-width="0.4"/>
+            </g>
+        </svg>
+
+        <!-- Bottom vine — mirrored flow -->
+        <svg class="vine-bottom" viewBox="0 0 1000 140" preserveAspectRatio="xMidYMid meet" fill="none">
+            <g stroke="#9B9B88" stroke-width="0.7" opacity="0.25" transform="translate(0,140) scale(1,-1)">
+                <path d="M-10,80 Q80,90 150,60 Q220,30 300,55 Q380,78 460,48 Q540,18 630,45 Q710,70 790,40 Q860,15 950,50 Q1000,65 1010,55"/>
+                <path d="M100,70 Q90,45 105,28 Q115,18 108,6"/>
+                <path d="M300,58 Q310,35 295,20"/>
+                <path d="M630,48 Q640,25 625,12"/>
+                <path d="M950,52 Q940,30 955,15"/>
+                <path d="M220,40 Q230,60 215,78 Q208,88 215,100"/>
+                <path d="M790,38 Q800,58 788,72"/>
+                <!-- Leaves -->
+                <path d="M105,28 Q95,24 100,16 M105,28 Q115,25 110,18" stroke-width="0.5"/>
+                <path d="M295,20 Q285,15 290,8 M295,20 Q305,17 300,10" stroke-width="0.5"/>
+                <path d="M625,12 Q618,6 622,0 M625,12 Q635,9 630,2" stroke-width="0.5"/>
+                <path d="M215,78 Q205,74 210,66 M215,78 Q225,76 220,68" stroke-width="0.5"/>
+                <!-- Blooms -->
+                <circle cx="108" cy="6" r="4" stroke-width="0.45"/>
+                <circle cx="108" cy="6" r="1.2" stroke-width="0.3"/>
+                <circle cx="215" cy="100" r="4" stroke-width="0.45"/>
+                <circle cx="215" cy="100" r="1.2" stroke-width="0.3"/>
+                <circle cx="788" cy="72" r="3.5" stroke-width="0.45"/>
+                <circle cx="788" cy="72" r="1" stroke-width="0.3"/>
+                <circle cx="955" cy="15" r="3" stroke-width="0.45"/>
+                <circle cx="955" cy="15" r="1" stroke-width="0.3"/>
+                <!-- Buds -->
+                <ellipse cx="460" cy="48" rx="2" ry="3" stroke-width="0.4" transform="rotate(-10 460 48)"/>
+                <ellipse cx="150" cy="60" rx="2" ry="2.5" stroke-width="0.4"/>
+            </g>
+        </svg>
+
+        <!-- Left vine — flows top to bottom -->
+        <svg class="vine-left" viewBox="0 0 100 1000" preserveAspectRatio="xMidYMid meet" fill="none">
+            <g stroke="#9B9B88" stroke-width="0.7" opacity="0.22">
+                <path d="M50,0 Q55,60 35,120 Q15,180 40,250 Q60,310 30,380 Q10,440 45,520 Q65,580 35,650 Q15,720 50,800 Q70,860 40,930 Q30,970 45,1000"/>
+                <!-- Tendrils right -->
+                <path d="M38,150 Q55,140 68,150 Q78,158 85,148"/>
+                <path d="M42,350 Q60,340 72,350 Q80,358 88,350"/>
+                <path d="M38,600 Q58,590 70,600"/>
+                <path d="M45,850 Q62,840 75,850"/>
+                <!-- Tendrils left -->
+                <path d="M45,250 Q28,242 18,252 Q10,260 4,252"/>
+                <path d="M35,520 Q18,512 8,522"/>
+                <path d="M50,800 Q32,790 22,800"/>
+                <!-- Leaves -->
+                <path d="M68,150 Q72,142 78,145 M68,150 Q65,158 70,162" stroke-width="0.45"/>
+                <path d="M18,252 Q14,244 8,248 M18,252 Q20,260 14,264" stroke-width="0.45"/>
+                <path d="M72,350 Q76,342 82,345 M72,350 Q68,358 74,362" stroke-width="0.45"/>
+                <!-- Blooms -->
+                <circle cx="85" cy="148" r="3.5" stroke-width="0.4"/>
+                <circle cx="85" cy="148" r="1" stroke-width="0.3"/>
+                <circle cx="4" cy="252" r="3.5" stroke-width="0.4"/>
+                <circle cx="4" cy="252" r="1" stroke-width="0.3"/>
+                <circle cx="88" cy="350" r="3" stroke-width="0.4"/>
+                <circle cx="88" cy="350" r="1" stroke-width="0.3"/>
+                <circle cx="8" cy="522" r="3" stroke-width="0.4"/>
+                <circle cx="8" cy="522" r="1" stroke-width="0.3"/>
+                <!-- Buds -->
+                <ellipse cx="70" cy="600" rx="2" ry="2.5" stroke-width="0.35"/>
+                <ellipse cx="22" cy="800" rx="2" ry="2.5" stroke-width="0.35"/>
+                <ellipse cx="75" cy="850" rx="1.5" ry="2.5" stroke-width="0.35"/>
+            </g>
+        </svg>
+
+        <!-- Right vine — mirrored -->
+        <svg class="vine-right" viewBox="0 0 100 1000" preserveAspectRatio="xMidYMid meet" fill="none">
+            <g stroke="#9B9B88" stroke-width="0.7" opacity="0.22" transform="translate(100,0) scale(-1,1)">
+                <path d="M50,50 Q55,110 35,170 Q15,230 40,300 Q60,360 30,430 Q10,490 45,570 Q65,630 35,700 Q15,770 50,850 Q70,910 40,980 Q30,1000 45,1010"/>
+                <!-- Tendrils -->
+                <path d="M38,200 Q55,190 68,200 Q78,208 85,198"/>
+                <path d="M42,400 Q60,390 72,400"/>
+                <path d="M38,650 Q58,640 70,650 Q78,656 86,648"/>
+                <path d="M45,900 Q62,890 75,900"/>
+                <path d="M45,300 Q28,292 18,302 Q10,310 4,302"/>
+                <path d="M35,570 Q18,562 8,572"/>
+                <!-- Leaves -->
+                <path d="M68,200 Q72,192 78,195 M68,200 Q65,208 70,212" stroke-width="0.45"/>
+                <path d="M18,302 Q14,294 8,298 M18,302 Q20,310 14,314" stroke-width="0.45"/>
+                <path d="M70,650 Q74,642 80,645 M70,650 Q66,658 72,662" stroke-width="0.45"/>
+                <!-- Blooms -->
+                <circle cx="85" cy="198" r="3.5" stroke-width="0.4"/>
+                <circle cx="85" cy="198" r="1" stroke-width="0.3"/>
+                <circle cx="4" cy="302" r="3" stroke-width="0.4"/>
+                <circle cx="4" cy="302" r="1" stroke-width="0.3"/>
+                <circle cx="86" cy="648" r="3.5" stroke-width="0.4"/>
+                <circle cx="86" cy="648" r="1" stroke-width="0.3"/>
+                <circle cx="8" cy="572" r="3" stroke-width="0.4"/>
+                <circle cx="8" cy="572" r="1" stroke-width="0.3"/>
+                <!-- Buds -->
+                <ellipse cx="72" cy="400" rx="2" ry="2.5" stroke-width="0.35"/>
+                <ellipse cx="75" cy="900" rx="1.5" ry="2.5" stroke-width="0.35"/>
+            </g>
+        </svg>
+
+    </div>
 
     <div class="page">
 
