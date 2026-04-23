@@ -3,214 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Honeymoon Site - Pick a Style</title>
+    <title>Our Honeymoon Fund</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #F7F7F7;
-            color: #1A1A1A;
-            min-height: 100vh;
+        :root {
+            --ivory: #FAFAFA;
+            --cream: #EDE8DF;
+            --warm-stone: #C4B9A0;
+            --green: #A8B5A2;
+            --green-deep: #8F9E89;
+            --pink: #C9A3A0;
+            --pink-deep: #B48885;
+            --text: #3E3E38;
+            --text-light: #5E5E56;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        html {
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* ── Snap panes ── */
+        .snap {
+            scroll-snap-align: start;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 4rem 2rem;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 4rem;
+        .snap > * {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 1.2s ease 0.15s, transform 1.2s ease 0.15s;
         }
 
-        header h1 {
-            font-family: 'DM Serif Display', serif;
-            font-weight: 400;
-            font-size: 2.2rem;
-            margin-bottom: 0.75rem;
+        .snap.in-view > * {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        header p {
-            color: #777;
-            font-weight: 300;
-            font-size: 1.05rem;
-        }
-
-        .options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .option-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .option-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 35px rgba(0,0,0,0.1);
-        }
-
-        .option-preview {
-            width: 100%;
-            aspect-ratio: 4/3;
-            overflow: hidden;
+        /* Hero pane — full-bleed photo, no padding */
+        .snap.hero {
+            padding: 0;
             position: relative;
+            overflow: hidden;
         }
 
-        .option-preview img {
+        /* Keep the hero image pinned — only fade its opacity, don't translate */
+        .snap.hero > .hero-img {
+            transform: none;
+            transition: opacity 1.5s ease 0.1s;
+        }
+
+        .snap.hero.in-view > .hero-img {
+            transform: none;
+        }
+
+        .hero-img {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            filter: brightness(0.55);
         }
 
-        .option-card:hover .option-preview img {
-            transform: scale(1.05);
+        .hero-content {
+            position: relative;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
         }
 
-        .option-preview .style-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(8px);
-            padding: 0.35rem 0.85rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #555;
+        .hero-content > p:first-child {
+            margin-bottom: 1.5rem;
         }
 
-        .option-info {
-            padding: 1.5rem;
-        }
-
-        .option-info h2 {
-            font-family: 'DM Serif Display', serif;
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
             font-weight: 400;
-            font-size: 1.35rem;
-            margin-bottom: 0.5rem;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            letter-spacing: 0.04em;
+            margin-bottom: 0.6em;
         }
 
-        .option-info p {
-            font-size: 0.9rem;
-            color: #888;
-            font-weight: 300;
-            line-height: 1.6;
+        .hero-content h1 em {
+            font-style: italic;
+            color: var(--pink);
         }
 
-        .option-info .view-link {
-            display: inline-block;
-            margin-top: 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
+        .hero-content p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #C0785C;
+            opacity: 0.85;
         }
 
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: var(--green);
+            margin: 2.5rem auto;
+        }
+
+        /* Sections */
+        section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        section h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 0.8em;
+            color: var(--text);
+        }
+
+        section p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            line-height: 1.9;
+        }
+
+        section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Photo gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .gallery img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 2px;
+            transition: transform 0.5s ease, filter 0.5s ease;
+            filter: saturate(0.85);
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+            filter: saturate(1);
+        }
+
+        .gallery img:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+            aspect-ratio: 1;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: transparent;
+            padding: 2rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1.1rem 3.2rem;
+            border: 1px solid var(--green);
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.85rem;
+            font-family: 'Lato', sans-serif;
+            transition: all 0.3s ease;
+            margin-top: 2.5rem;
+        }
+
+        .cta-btn:hover {
+            background: var(--green);
+            color: var(--ivory);
+        }
+
+        /* Footer */
         footer {
             text-align: center;
-            padding: 4rem 2rem 2rem;
-            color: #aaa;
+            padding: 2rem 2rem 0;
+            color: var(--text-light);
             font-size: 0.85rem;
+            letter-spacing: 0.1em;
         }
 
-        @media (max-width: 480px) {
-            .container { padding: 2.5rem 1rem; }
-            header { margin-bottom: 2.5rem; }
-            header h1 { font-size: 1.6rem; }
-            .options { grid-template-columns: 1fr; gap: 1.5rem; }
-            .option-info .view-link { padding: 0.5rem 0; display: inline-block; }
+        /* Responsive */
+        @media (max-width: 768px) {
+            section { padding: 1.5rem; }
+            .gallery { padding: 0 1.5rem; }
+        }
+
+        @media (max-width: 600px) {
+            section { padding: 1.25rem; }
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+                padding: 0 1.25rem;
+                gap: 0.9rem;
+            }
+            .gallery img:first-child {
+                grid-column: span 2;
+                grid-row: span 1;
+                aspect-ratio: 3/2;
+            }
+            .cta-btn { padding: 1rem 2rem; }
+        }
+
+        @media (max-width: 380px) {
+            section { padding: 1rem; }
+            .gallery { padding: 0 1rem; gap: 0.6rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Pick Your Style</h1>
-            <p>Options for your honeymoon fund page. Click to preview each one.</p>
-        </header>
-
-        <div class="options">
-            <a href="elegant.html" class="option-card">
-                <div class="option-preview">
-                    <img src="photos/IMG-20260311-WA0004.jpg" alt="Elegant preview">
-                    <span class="style-badge">Option A</span>
-                </div>
-                <div class="option-info">
-                    <h2>Elegant Classic</h2>
-                    <p>Full-screen hero photo, cream & gold palette, serif typography. Understated luxury with smooth fade-in animations.</p>
-                    <span class="view-link">View preview &rarr;</span>
-                </div>
-            </a>
-
-<a href="lake.html" class="option-card">
-                <div class="option-preview" style="background: linear-gradient(135deg, #2C4A4A, #4A7C7C); display: flex; align-items: center; justify-content: center;">
-                    <img src="photos/IMG-20260311-WA0004.jpg" alt="Lake preview" style="width: 60%; height: 80%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transform: rotate(-3deg);">
-                    <span class="style-badge">Option D</span>
-                </div>
-                <div class="option-info">
-                    <h2>Blossom Lake</h2>
-                    <p>Overhead lake view with drifting cherry blossom petals, water ripples, and photos floating gently on the surface.</p>
-                    <span class="view-link">View preview &rarr;</span>
-                </div>
-            </a>
-            <a href="romantic2.html" class="option-card">
-                <div class="option-preview">
-                    <img src="photos/IMG-20260311-WA0005.jpg" alt="Romantic 2 preview">
-                    <span class="style-badge">Option E</span>
-                </div>
-                <div class="option-info">
-                    <h2>Scattered Polaroids</h2>
-                    <p>Polaroids tossed on a linen surface, randomly scattered on each visit. Frosted glass cards on desktop, interleaved on mobile.</p>
-                    <span class="view-link">View preview &rarr;</span>
-                </div>
-            </a>
-
-            <a href="romantic3.html" class="option-card">
-                <div class="option-preview" style="background: #FDFCF9; display: flex; align-items: center; justify-content: center;">
-                    <img src="photos/IMG-20260311-WA0003.jpg" alt="Romantic 3 preview" style="width: 55%; height: 75%; object-fit: cover;">
-                    <span class="style-badge">Option F</span>
-                </div>
-                <div class="option-info">
-                    <h2>English Garden</h2>
-                    <p>Romantic minimalist, delicate serif typography, muted pastel foliage tones. Centered symmetrical layout with generous whitespace.</p>
-                    <span class="view-link">View preview &rarr;</span>
-                </div>
-            </a>
-            <a href="garden.html" class="option-card">
-                <div class="option-preview" style="background: #F7F3ED; display: flex; align-items: center; justify-content: center;">
-                    <span style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.8rem; color: #3E3E38; letter-spacing: 0.02em;">Mhairi <em style="font-family: 'Great Vibes', cursive; color: #C4B9A0; font-size: 1.4rem;">&</em> Barnaby</span>
-                    <span class="style-badge">Option G</span>
-                </div>
-                <div class="option-info">
-                    <h2>English Garden</h2>
-                    <p>Romantic minimalism with fine-line botanicals, handmade paper texture, ivory/cream/charcoal palette. Delicate script accents.</p>
-                    <span class="view-link">View preview &rarr;</span>
-                </div>
-            </a>
+    <!-- Snap 1: Hero -->
+    <div class="snap hero">
+        <img class="hero-img" src="photos/IMG-20260311-WA0004.jpg" alt="Us together">
+        <div class="hero-content">
+            <p>The wedding of</p>
+            <h1>Mhairi <em>&</em> Barnaby</h1>
+            <div class="divider"></div>
+            <p>Our Honeymoon Fund</p>
         </div>
     </div>
 
-    <footer>
-        <p>Honeymoon Fund Site &mdash; Style Selector</p>
-    </footer>
+    <!-- Snap 2: Intro -->
+    <div class="snap">
+        <section>
+            <h2>Help Us Create Memories</h2>
+            <div class="divider"></div>
+            <p>
+                Your presence at our wedding is the greatest gift of all. But if you wish to
+                contribute to our honeymoon adventure, we would be truly grateful for any
+                contribution to our travel fund.
+            </p>
+        </section>
+    </div>
+
+    <!-- Snap 3: Gallery -->
+    <div class="snap">
+        <div class="gallery">
+            <img src="photos/IMG-20260311-WA0002.jpg" alt="Travel photo">
+            <img src="photos/IMG-20260311-WA0001.jpg" alt="Together">
+            <img src="photos/IMG-20260311-WA0005.jpg" alt="Exploring">
+            <img src="photos/IMG-20260311-WA0003.jpg" alt="Night out">
+            <img src="photos/IMG-20260311-WA0000-h.jpg" alt="Polaroids">
+        </div>
+    </div>
+
+    <!-- Snap 4: CTA + footer -->
+    <div class="snap">
+        <section class="cta-section">
+            <h2>Contribute to Our Adventure</h2>
+            <div class="divider"></div>
+            <p>
+                Every contribution, no matter how small, brings us one step closer to
+                our dream honeymoon. Thank you for being part of our story.
+            </p>
+            <a href="https://paypal.me/placeholder" class="cta-btn">Contribute via PayPal</a>
+        </section>
+        <footer>
+            <p>With love and gratitude &mdash; Mhairi & Barnaby</p>
+        </footer>
+    </div>
+
+    <script>
+        const o = new IntersectionObserver(e => {
+            e.forEach(x => {
+                if (x.isIntersecting) {
+                    x.target.classList.add('in-view');
+                } else {
+                    x.target.classList.remove('in-view');
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.snap').forEach(el => o.observe(el));
+    </script>
 
 </body>
 </html>
