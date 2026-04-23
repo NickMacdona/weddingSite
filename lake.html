@@ -107,107 +107,6 @@
         .petal-11 { width: 9px;  height: 7px;  background: var(--petal-white); top: 65%; left: 88%; --drift-time: 24s; --petal-delay: 2.5s; --drift-x: -50px; --drift-y: 15px; --drift-x2: 10px; --drift-y2: -25px; --petal-opacity: 0.4; }
         .petal-12 { width: 19px; height: 14px; background: var(--petal-pink);  top: 50%; left: 35%; --drift-time: 18s; --petal-delay: 10s;  --drift-x: -15px; --drift-y: -40px; --drift-x2: 35px; --drift-y2: 20px; --petal-opacity: 0.55; }
 
-        /* ── Floating photos ── */
-        .floating-photos {
-            position: fixed;
-            inset: 0;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .float-photo {
-            position: absolute;
-            background: #fff;
-            padding: 0.5rem 0.5rem 1.8rem;
-            box-shadow:
-                0 5px 25px rgba(0,0,0,0.25),
-                0 0 60px rgba(0,0,0,0.08);
-            animation: bobFloat var(--bob-time, 6s) ease-in-out infinite;
-            animation-delay: var(--bob-delay, 0s);
-        }
-
-        .float-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .float-photo .caption {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            text-align: center;
-            padding-top: 0.4rem;
-            font-size: 0.7rem;
-            color: #999;
-        }
-
-        /* Subtle reflection on water */
-        .float-photo::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 10%;
-            right: 10%;
-            height: 8px;
-            background: rgba(0,0,0,0.12);
-            filter: blur(4px);
-            border-radius: 50%;
-        }
-
-        @keyframes bobFloat {
-            0%, 100% {
-                transform: translate(0, 0) rotate(var(--rot, 0deg));
-            }
-            25% {
-                transform: translate(var(--bob-x1, 5px), var(--bob-y1, -8px)) rotate(calc(var(--rot, 0deg) + 1.5deg));
-            }
-            50% {
-                transform: translate(var(--bob-x2, -3px), var(--bob-y2, 6px)) rotate(calc(var(--rot, 0deg) - 1deg));
-            }
-            75% {
-                transform: translate(var(--bob-x3, 4px), var(--bob-y3, -4px)) rotate(calc(var(--rot, 0deg) + 0.5deg));
-            }
-        }
-
-        /* Photo positions — hugging edges, varied sizes */
-        .fp-1 {
-            width: clamp(130px, 15vw, 200px);
-            top: 4%; left: 2%;
-            --rot: -7deg; --bob-time: 7s; --bob-delay: 0s;
-            --bob-x1: 6px; --bob-y1: -8px; --bob-x2: -4px; --bob-y2: 5px; --bob-x3: 3px; --bob-y3: -3px;
-        }
-        .fp-2 {
-            width: clamp(120px, 14vw, 180px);
-            top: 8%; right: 3%;
-            --rot: 5deg; --bob-time: 8s; --bob-delay: 1.5s;
-            --bob-x1: -5px; --bob-y1: -6px; --bob-x2: 7px; --bob-y2: 4px; --bob-x3: -3px; --bob-y3: -5px;
-        }
-        .fp-3 {
-            width: clamp(140px, 16vw, 210px);
-            top: 38%; left: -1%;
-            --rot: 10deg; --bob-time: 9s; --bob-delay: 0.8s;
-            --bob-x1: 8px; --bob-y1: -5px; --bob-x2: -6px; --bob-y2: 7px; --bob-x3: 5px; --bob-y3: -4px;
-        }
-        .fp-4 {
-            width: clamp(115px, 13vw, 175px);
-            top: 42%; right: 1%;
-            --rot: -4deg; --bob-time: 6.5s; --bob-delay: 2s;
-            --bob-x1: -4px; --bob-y1: -7px; --bob-x2: 5px; --bob-y2: 3px; --bob-x3: -6px; --bob-y3: -2px;
-        }
-        .fp-5 {
-            width: clamp(135px, 15vw, 195px);
-            bottom: 14%; left: 3%;
-            --rot: -9deg; --bob-time: 7.5s; --bob-delay: 3s;
-            --bob-x1: 5px; --bob-y1: -9px; --bob-x2: -7px; --bob-y2: 6px; --bob-x3: 4px; --bob-y3: -5px;
-        }
-        .fp-6 {
-            width: clamp(125px, 14vw, 185px);
-            bottom: 5%; right: 4%;
-            --rot: 8deg; --bob-time: 8.5s; --bob-delay: 1s;
-            --bob-x1: -6px; --bob-y1: -5px; --bob-x2: 4px; --bob-y2: 8px; --bob-x3: -3px; --bob-y3: -6px;
-        }
-
         /* ── Content layer ── */
         .content {
             position: relative;
@@ -342,19 +241,11 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .float-photo { padding: 0.35rem 0.35rem 1.2rem; }
-            .fp-1 { width: 90px;  top: 2%;  left: -12%; }
-            .fp-2 { width: 80px;  top: 5%;  right: -10%; }
-            .fp-3 { width: 95px;  top: 34%; left: -15%; }
-            .fp-4 { width: 75px;  top: 40%; right: -12%; }
-            .fp-5 { width: 90px;  bottom: 16%; left: -10%; }
-            .fp-6 { width: 80px;  bottom: 4%;  right: -14%; }
             .header { padding: 4rem 1.5rem 2rem; }
             .glass-card { margin: 2rem 1rem; padding: 2rem 1.5rem; }
         }
 
         @media (max-width: 480px) {
-            .floating-photos { display: none; }
             .petal-3, .petal-5, .petal-7, .petal-9, .petal-11 { display: none; }
             .header { padding: 3rem 1rem 1.5rem; }
             .glass-card {
@@ -394,42 +285,14 @@
     <div class="petal petal-11"></div>
     <div class="petal petal-12"></div>
 
-    <!-- Floating photos on the water -->
-    <div class="floating-photos">
-        <div class="float-photo fp-1">
-            <img src="photos/IMG-20260311-WA0001.jpg" alt="Us">
-
-        </div>
-        <div class="float-photo fp-2">
-            <img src="photos/IMG-20260311-WA0002.jpg" alt="Travel">
-
-        </div>
-        <div class="float-photo fp-3">
-            <img src="photos/IMG-20260311-WA0004.jpg" alt="Evening">
-
-        </div>
-        <div class="float-photo fp-4">
-            <img src="photos/IMG-20260311-WA0005.jpg" alt="Chateau">
-
-        </div>
-        <div class="float-photo fp-5">
-            <img src="photos/IMG-20260311-WA0003.jpg" alt="Night">
-
-        </div>
-        <div class="float-photo fp-6">
-            <img src="photos/IMG-20260311-WA0000-h.jpg" alt="Memories">
-
-        </div>
-    </div>
-
     <!-- Content -->
     <div class="content">
         <div class="header fade-in">
             <p class="prelude">together is our favourite place to be</p>
             <h1>
-                Name
+                Mhairi
                 <span>&</span>
-                Name
+                Barnaby
             </h1>
         </div>
 
@@ -459,7 +322,7 @@
         </div>
 
         <footer>
-            <p>With all our love &mdash; Name & Name</p>
+            <p>With all our love &mdash; Mhairi & Barnaby</p>
         </footer>
     </div>
 
