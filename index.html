@@ -24,6 +24,7 @@
 
         html {
             scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -210,6 +211,33 @@
             letter-spacing: 0.04em;
         }
 
+        .scroll-cue {
+            margin-top: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .scroll-cue:hover {
+            color: var(--text);
+        }
+
+        .scroll-cue .arrow {
+            display: inline-block;
+            animation: bob 2.2s ease-in-out infinite;
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -294,10 +322,14 @@
             </p>
             <a href="https://www.paypal.com/qrcodes/p2pqrc/V4BGSCEZUAN6Y" class="cta-btn">Contribute via PayPal</a>
         </section>
+        <a href="#bank" class="scroll-cue">
+            Or by bank transfer
+            <span class="arrow">&darr;</span>
+        </a>
     </div>
 
     <!-- Snap 5: Bank transfer alternative + footer -->
-    <div class="snap">
+    <div class="snap" id="bank">
         <section>
             <h2>Bank Transfer</h2>
             <div class="divider"></div>
