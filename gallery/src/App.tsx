@@ -3,11 +3,24 @@ import HTMLFlipBook from 'react-pageflip'
 
 const API_BASE = 'https://wedding-photo-api.icysky-79d3c8ed.uksouth.azurecontainerapps.io'
 
+function getVisitorId(): string {
+  let id = localStorage.getItem('visitorId')
+  if (!id) {
+    id = crypto.randomUUID()
+    localStorage.setItem('visitorId', id)
+  }
+  return id
+}
+
+const visitorId = getVisitorId()
+
 interface Photo {
   id: string
   credit: string
   uploadedAt: string
   url: string
+  hearts: number
+  hearted: boolean
 }
 
 interface PhotosResponse {
@@ -29,11 +42,25 @@ const CoverPage = forwardRef<HTMLDivElement>((_, ref) => (
   </div>
 ))
 
-const PhotoPage = forwardRef<HTMLDivElement, { photo: Photo }>(({ photo }, ref) => (
+interface PhotoPageProps {
+  photo: Photo
+  onHeart: (id: string) => void
+}
+
+const PhotoPage = forwardRef<HTMLDivElement, PhotoPageProps>(({ photo, onHeart }, ref) => (
   <div ref={ref} style={styles.page}>
     <img src={photo.url} alt={`Photo by ${photo.credit}`} style={styles.photo} />
     <div style={styles.creditBar}>
-      <span style={styles.creditText}>📸 {photo.credit}</span>
+      <span style={styles.creditText}>{photo.credit}</span>
+      <button
+        style={styles.heartBtn}
+        onClick={(e) => { e.stopPropagation(); onHeart(photo.id) }}
+      >
+        <span style={photo.hearted ? styles.heartFilled : styles.heartEmpty}>
+          {photo.hearted ? '♥' : '♡'}
+        </span>
+        {photo.hearts > 0 && <span style={styles.heartCount}>{photo.hearts}</span>}
+      </button>
     </div>
   </div>
 ))
@@ -62,7 +89,7 @@ export default function App() {
     if (fetchingRef.current) return
     fetchingRef.current = true
     try {
-      const res = await fetch(`${API_BASE}/api/photos?page=${page}&pageSize=20`)
+      const res = await fetch(`${API_BASE}/api/photos?page=${page}&pageSize=20&visitorId=${visitorId}`)
       if (!res.ok) throw new Error('Failed to load photos')
       const data: PhotosResponse = await res.json()
       setPhotos(prev => [...prev, ...data.photos])
@@ -85,6 +112,23 @@ export default function App() {
       fetchPage(loadedApiPages + 1)
     }
   }, [currentFlipPage, loadedApiPages, totalPages, fetchPage])
+
+  const handleHeart = useCallback(async (photoId: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/photos/${photoId}/heart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ visitorId })
+      })
+      if (!res.ok) return
+      const data: { hearted: boolean } = await res.json()
+      setPhotos(prev => prev.map(p =>
+        p.id === photoId
+          ? { ...p, hearted: data.hearted, hearts: p.hearts + (data.hearted ? 1 : -1) }
+          : p
+      ))
+    } catch { /* ignore */ }
+  }, [])
 
   if (loading) {
     return (
@@ -142,7 +186,7 @@ export default function App() {
         >
           <CoverPage />
           {photos.map(photo => (
-            <PhotoPage key={photo.id} photo={photo} />
+            <PhotoPage key={photo.id} photo={photo} onHeart={handleHeart} />
           ))}
           <EndPage />
         </HTMLFlipBook>
@@ -228,12 +272,41 @@ const styles: Record<string, React.CSSProperties> = {
     right: 0,
     background: 'linear-gradient(transparent, rgba(0,0,0,0.5))',
     padding: '2rem 1rem 0.8rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   creditText: {
     color: '#fff',
     fontSize: '0.8rem',
     letterSpacing: '0.06em',
     fontWeight: 300,
+  },
+  heartBtn: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.3rem',
+    padding: '0.4rem',
+    WebkitTapHighlightColor: 'transparent',
+  },
+  heartEmpty: {
+    fontSize: '1.4rem',
+    color: 'rgba(255,255,255,0.8)',
+    lineHeight: 1,
+  },
+  heartFilled: {
+    fontSize: '1.4rem',
+    color: '#C9A3A0',
+    lineHeight: 1,
+  },
+  heartCount: {
+    color: '#fff',
+    fontSize: '0.8rem',
+    fontWeight: 300,
+    letterSpacing: '0.04em',
   },
   endText: {
     fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',

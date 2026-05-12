@@ -124,6 +124,7 @@ app.MapGet("/api/photos", async (HttpContext ctx, BlobServiceClient blobService,
 {
     var pageParam = ctx.Request.Query["page"].FirstOrDefault();
     var pageSizeParam = ctx.Request.Query["pageSize"].FirstOrDefault();
+    var visitorId = ctx.Request.Query["visitorId"].FirstOrDefault() ?? "";
     var page = Math.Max(1, int.TryParse(pageParam, out var p) ? p : 1);
     var pageSize = Math.Clamp(int.TryParse(pageSizeParam, out var ps) ? ps : 20, 1, 50);
 
@@ -132,8 +133,22 @@ app.MapGet("/api/photos", async (HttpContext ctx, BlobServiceClient blobService,
     {
         allPhotos.Add(entity);
     }
+
+    var heartCounts = new Dictionary<string, int>();
+    var visitorHearts = new HashSet<string>();
+    await foreach (var heart in table.QueryAsync<TableEntity>(filter: "PartitionKey ge 'heart_' and PartitionKey lt 'heart`'"))
+    {
+        var photoId = heart.PartitionKey["heart_".Length..];
+        heartCounts[photoId] = heartCounts.GetValueOrDefault(photoId) + 1;
+        if (heart.RowKey == visitorId)
+            visitorHearts.Add(photoId);
+    }
+
     allPhotos.Sort((a, b) =>
     {
+        var aHearts = heartCounts.GetValueOrDefault(a.RowKey!, 0);
+        var bHearts = heartCounts.GetValueOrDefault(b.RowKey!, 0);
+        if (aHearts != bHearts) return bHearts.CompareTo(aHearts);
         var aTime = a.GetDateTimeOffset("UploadedAt") ?? DateTimeOffset.MinValue;
         var bTime = b.GetDateTimeOffset("UploadedAt") ?? DateTimeOffset.MinValue;
         return aTime.CompareTo(bTime);
@@ -151,17 +166,46 @@ app.MapGet("/api/photos", async (HttpContext ctx, BlobServiceClient blobService,
         var blobName = entity.GetString("BlobName");
         var blob = container.GetBlobClient(blobName);
         var sasUri = blob.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddHours(1));
+        var id = entity.RowKey!;
 
         photos.Add(new
         {
-            id = entity.RowKey,
+            id,
             credit = entity.GetString("Credit") ?? "Anonymous",
             uploadedAt = entity.GetDateTimeOffset("UploadedAt"),
-            url = sasUri.ToString()
+            url = sasUri.ToString(),
+            hearts = heartCounts.GetValueOrDefault(id, 0),
+            hearted = visitorHearts.Contains(id)
         });
     }
 
     return Results.Ok(new { photos, page, pageSize, totalCount, totalPages });
+});
+
+app.MapPost("/api/photos/{id}/heart", async (string id, HttpContext ctx, TableClient table) =>
+{
+    var body = await ctx.Request.ReadFromJsonAsync<HeartRequest>();
+    if (string.IsNullOrWhiteSpace(body?.VisitorId) || body.VisitorId.Length > 64)
+        return Results.Json(new { error = "Invalid visitorId" }, statusCode: 400);
+
+    var partitionKey = $"heart_{id}";
+    var rowKey = body.VisitorId;
+
+    try
+    {
+        var existing = await table.GetEntityAsync<TableEntity>(partitionKey, rowKey);
+        await table.DeleteEntityAsync(partitionKey, rowKey, existing.Value.ETag);
+        return Results.Ok(new { hearted = false });
+    }
+    catch (Azure.RequestFailedException ex) when (ex.Status == 404)
+    {
+        var entity = new TableEntity(partitionKey, rowKey)
+        {
+            ["HeartedAt"] = DateTimeOffset.UtcNow
+        };
+        await table.AddEntityAsync(entity);
+        return Results.Ok(new { hearted = true });
+    }
 });
 
 app.MapPost("/api/upload", async (HttpContext ctx, BlobServiceClient blobService, TableClient table) =>
@@ -211,3 +255,4 @@ app.MapPost("/api/upload", async (HttpContext ctx, BlobServiceClient blobService
 app.Run();
 
 record LoginRequest(string? Password);
+record HeartRequest(string? VisitorId);
