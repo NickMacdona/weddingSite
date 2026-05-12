@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Photos — Mhairi & Barnaby</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ivory: #FAFAFA;
+            --cream: #EDE8DF;
+            --warm-stone: #C4B9A0;
+            --green: #A8B5A2;
+            --green-deep: #8F9E89;
+            --pink: #C9A3A0;
+            --pink-deep: #B48885;
+            --text: #3E3E38;
+            --text-light: #5E5E56;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem 3rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeUp 1s ease 0.15s forwards;
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            margin-top: 1.5rem;
+            margin-bottom: 0.4em;
+            color: var(--text);
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--pink);
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: var(--green);
+            margin: 1.5rem auto;
+        }
+
+        label {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 0.6rem;
+            text-align: left;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid var(--warm-stone);
+            background: #fff;
+            color: var(--text);
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.04em;
+            transition: border-color 0.3s ease;
+            min-height: 48px;
+            margin-bottom: 2rem;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--green);
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--warm-stone);
+            padding: 2.5rem 1.5rem;
+            cursor: pointer;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            margin-bottom: 1.5rem;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: var(--green);
+            background: rgba(168, 181, 162, 0.06);
+        }
+
+        .drop-zone svg {
+            width: 36px;
+            height: 36px;
+            stroke: var(--warm-stone);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .drop-zone p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            letter-spacing: 0.04em;
+        }
+
+        .drop-zone .small {
+            font-size: 0.75rem;
+            color: var(--warm-stone);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .previews {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-item .remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .preview-item .file-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 2px 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem 2rem;
+            border: 1px solid var(--green);
+            background: transparent;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.85rem;
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 48px;
+        }
+
+        .cta-btn:hover {
+            background: var(--green);
+            color: var(--ivory);
+        }
+
+        .cta-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .cta-btn:disabled:hover {
+            background: transparent;
+            color: var(--text);
+        }
+
+        .cta-btn.secondary {
+            border-color: var(--warm-stone);
+            margin-top: 0.8rem;
+        }
+
+        .cta-btn.secondary:hover {
+            background: var(--warm-stone);
+            color: var(--ivory);
+        }
+
+        .status {
+            margin-top: 1.2rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            min-height: 1.5em;
+        }
+
+        .status.error {
+            color: var(--pink-deep);
+        }
+
+        .status.success {
+            color: var(--green-deep);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+        }
+
+        .success-message.visible {
+            display: block;
+        }
+
+        .success-message h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            margin-bottom: 0.5em;
+            color: var(--text);
+        }
+
+        .success-message p {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkmark {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            stroke: var(--green-deep);
+            fill: none;
+            stroke-width: 2;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawCheck 0.6s ease 0.2s forwards;
+        }
+
+        @keyframes drawCheck {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .upload-form { display: block; }
+        .upload-form.hidden { display: none; }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: var(--cream);
+            margin-top: 1rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar.active {
+            display: block;
+        }
+
+        .progress-bar .fill {
+            height: 100%;
+            background: var(--green);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .back-link {
+            margin-top: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+
+        @keyframes ellipsis {
+            0%   { content: ''; }
+            25%  { content: '.'; }
+            50%  { content: '..'; }
+            75%  { content: '...'; }
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: ellipsis 1.2s steps(1) infinite;
+        }
+
+        @media (max-width: 400px) {
+            .previews {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Share Your <em>Memories</em></h1>
+        <div class="divider"></div>
+        <p class="subtitle">Upload your favourite photos from the day</p>
+
+        <div class="upload-form" id="uploadForm">
+            <label for="credit">Who do we credit for this masterpiece?</label>
+            <input type="text" id="credit" placeholder="e.g. Auntie Jane" autocomplete="name">
+
+            <div class="drop-zone" id="dropZone">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <p>Tap to select photos</p>
+                <p class="small">JPEG, PNG, HEIC or WebP &middot; up to 20 MB each</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/heic,image/heif,image/webp" multiple>
+
+            <div class="previews" id="previews"></div>
+
+            <button class="cta-btn" id="uploadBtn" disabled>Upload Photos</button>
+            <div class="progress-bar" id="progressBar"><div class="fill" id="progressFill"></div></div>
+            <p class="status" id="status"></p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <svg class="checkmark" viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="24" stroke-opacity="0.2"/>
+                <path d="M14 27l8 8 16-16"/>
+            </svg>
+            <h2>Thank you!</h2>
+            <p>Your photos have been uploaded successfully.</p>
+            <button class="cta-btn" id="uploadMoreBtn">Upload More</button>
+        </div>
+
+        <a href="index.html" class="back-link">&larr; Back to site</a>
+    </div>
+
+    <script>
+        const API_BASE = 'https://wedding-photo-api.icysky-79d3c8ed.uksouth.azurecontainerapps.io';
+        const MAX_FILE_SIZE = 20 * 1024 * 1024;
+
+        let selectedFiles = [];
+
+        const token = sessionStorage.getItem('uploadToken');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        async function verifyToken() {
+            try {
+                const res = await fetch(`${API_BASE}/api/verify`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) {
+                    sessionStorage.removeItem('uploadToken');
+                    window.location.href = 'login.html?expired=true';
+                    return false;
+                }
+                return true;
+            } catch {
+                return true;
+            }
+        }
+
+        verifyToken();
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const previews = document.getElementById('previews');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const successMessage = document.getElementById('successMessage');
+        const uploadMoreBtn = document.getElementById('uploadMoreBtn');
+        const status = document.getElementById('status');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', () => {
+            handleFiles(fileInput.files);
+            fileInput.value = '';
+        });
+
+        async function handleFiles(fileList) {
+            const valid = await verifyToken();
+            if (!valid) return;
+
+            status.textContent = '';
+            status.className = 'status';
+
+            for (const file of fileList) {
+                if (file.size > MAX_FILE_SIZE) {
+                    status.textContent = `${file.name} is over 20 MB and was skipped`;
+                    status.className = 'status error';
+                    continue;
+                }
+                if (selectedFiles.some(f => f.name === file.name && f.size === file.size)) continue;
+                selectedFiles.push(file);
+            }
+
+            renderPreviews();
+            uploadBtn.disabled = selectedFiles.length === 0;
+        }
+
+        function renderPreviews() {
+            previews.innerHTML = '';
+            selectedFiles.forEach((file, i) => {
+                const item = document.createElement('div');
+                item.className = 'preview-item';
+
+                const img = document.createElement('img');
+                try {
+                    img.src = URL.createObjectURL(file);
+                } catch {
+                    img.style.background = 'var(--cream)';
+                }
+                item.appendChild(img);
+
+                const remove = document.createElement('button');
+                remove.className = 'remove';
+                remove.textContent = '×';
+                remove.addEventListener('click', () => {
+                    selectedFiles.splice(i, 1);
+                    renderPreviews();
+                    uploadBtn.disabled = selectedFiles.length === 0;
+                });
+                item.appendChild(remove);
+
+                const name = document.createElement('div');
+                name.className = 'file-name';
+                name.textContent = file.name;
+                item.appendChild(name);
+
+                previews.appendChild(item);
+            });
+        }
+
+        uploadBtn.addEventListener('click', async () => {
+            if (selectedFiles.length === 0) return;
+
+            const valid = await verifyToken();
+            if (!valid) return;
+
+            const credit = document.getElementById('credit').value.trim() || 'Anonymous';
+
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = 'Uploading<span class="loading-dots"></span>';
+            progressBar.classList.add('active');
+            status.className = 'status';
+
+            let uploaded = 0;
+            let failed = 0;
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                status.textContent = `Uploading ${i + 1} of ${selectedFiles.length}...`;
+                progressFill.style.width = `${((i) / selectedFiles.length) * 100}%`;
+
+                const formData = new FormData();
+                formData.append('photo', selectedFiles[i]);
+                formData.append('credit', credit);
+
+                try {
+                    const res = await fetch(`${API_BASE}/api/upload`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${token}` },
+                        body: formData
+                    });
+
+                    if (res.status === 401) {
+                        sessionStorage.removeItem('uploadToken');
+                        window.location.href = 'login.html?expired=true';
+                        return;
+                    }
+
+                    if (res.ok) {
+                        uploaded++;
+                    } else {
+                        failed++;
+                    }
+                } catch {
+                    failed++;
+                }
+            }
+
+            progressFill.style.width = '100%';
+
+            if (failed === 0) {
+                uploadForm.classList.add('hidden');
+                successMessage.classList.add('visible');
+            } else {
+                status.textContent = `${uploaded} uploaded, ${failed} failed. Please try the failed ones again.`;
+                status.className = 'status error';
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'Retry Upload';
+            }
+
+            progressBar.classList.remove('active');
+        });
+
+        uploadMoreBtn.addEventListener('click', () => {
+            selectedFiles = [];
+            previews.innerHTML = '';
+            document.getElementById('credit').value = '';
+            status.textContent = '';
+            status.className = 'status';
+            progressFill.style.width = '0%';
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Upload Photos';
+            successMessage.classList.remove('visible');
+            uploadForm.classList.remove('hidden');
+        });
+    </script>
+
+</body>
+</html>

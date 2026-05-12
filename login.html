@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Your Photos — Mhairi & Barnaby</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ivory: #FAFAFA;
+            --cream: #EDE8DF;
+            --warm-stone: #C4B9A0;
+            --green: #A8B5A2;
+            --green-deep: #8F9E89;
+            --pink: #C9A3A0;
+            --pink-deep: #B48885;
+            --text: #3E3E38;
+            --text-light: #5E5E56;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            font-weight: 300;
+            line-height: 1.7;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: fadeUp 1s ease 0.15s forwards;
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            margin-bottom: 0.4em;
+            color: var(--text);
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--pink);
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: var(--green);
+            margin: 1.5rem auto;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            color: var(--warm-stone);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.04em;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid var(--warm-stone);
+            background: #fff;
+            color: var(--text);
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            text-align: center;
+            transition: border-color 0.3s ease;
+            min-height: 48px;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: var(--green);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem 2rem;
+            border: 1px solid var(--green);
+            background: transparent;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.85rem;
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 48px;
+        }
+
+        .cta-btn:hover {
+            background: var(--green);
+            color: var(--ivory);
+        }
+
+        .cta-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .cta-btn:disabled:hover {
+            background: transparent;
+            color: var(--text);
+        }
+
+        .error {
+            color: var(--pink-deep);
+            font-size: 0.9rem;
+            margin-top: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .error.visible {
+            opacity: 1;
+        }
+
+        .back-link {
+            margin-top: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+
+        @keyframes ellipsis {
+            0%   { content: ''; }
+            25%  { content: '.'; }
+            50%  { content: '..'; }
+            75%  { content: '...'; }
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: ellipsis 1.2s steps(1) infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Share Your <em>Photos</em></h1>
+        <div class="divider"></div>
+        <p class="subtitle">Enter the password to continue</p>
+        <p class="hint">Hint: the last name of the married couple</p>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" autocomplete="off" required>
+            </div>
+            <button type="submit" class="cta-btn" id="submitBtn">Continue</button>
+        </form>
+
+        <p class="error" id="error"></p>
+
+        <a href="index.html" class="back-link">&larr; Back to site</a>
+    </div>
+
+    <script>
+        const API_BASE = 'https://wedding-photo-api.icysky-79d3c8ed.uksouth.azurecontainerapps.io';
+
+        const form = document.getElementById('loginForm');
+        const btn = document.getElementById('submitBtn');
+        const error = document.getElementById('error');
+        const passwordInput = document.getElementById('password');
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('expired') === 'true') {
+            error.textContent = 'Your session expired — please log in again';
+            error.classList.add('visible');
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            error.classList.remove('visible');
+
+            const password = passwordInput.value.trim();
+            if (!password) return;
+
+            btn.disabled = true;
+            btn.innerHTML = 'Warming up<span class="loading-dots"></span>';
+
+            try {
+                const res = await fetch(`${API_BASE}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    sessionStorage.setItem('uploadToken', data.token);
+                    window.location.href = 'upload.html';
+                } else if (res.status === 429) {
+                    error.textContent = 'Too many attempts — please wait a moment';
+                    error.classList.add('visible');
+                } else {
+                    error.textContent = "That’s not quite right — try again";
+                    error.classList.add('visible');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            } catch {
+                error.textContent = 'Something went wrong — please try again';
+                error.classList.add('visible');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Continue';
+        });
+    </script>
+
+</body>
+</html>
