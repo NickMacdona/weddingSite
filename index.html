@@ -250,7 +250,7 @@
             align-items: center;
             justify-content: center;
             height: 132px;
-            padding: 0 3rem 0 1rem;
+            padding: 0 1rem;
         }
 
         .photo-banner a {
@@ -260,9 +260,9 @@
             letter-spacing: 0.15em;
             font-size: 1.1rem;
             font-weight: 400;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: block;
+            text-align: center;
+            line-height: 1.6;
             transition: opacity 0.3s ease;
         }
 
@@ -270,24 +270,6 @@
             opacity: 0.85;
         }
 
-        .photo-banner .banner-close {
-            position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.7);
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 0.4rem;
-            line-height: 1;
-            transition: color 0.3s ease;
-        }
-
-        .photo-banner .banner-close:hover {
-            color: #fff;
-        }
 
         body.has-banner .snap.hero {
             padding-top: 132px;
@@ -332,11 +314,7 @@
 <body class="has-banner">
 
     <div class="photo-banner" id="photoBanner">
-        <a href="login.html">
-            <span>Share your wedding photos with us</span>
-            <span>&rarr;</span>
-        </a>
-        <button class="banner-close" onclick="document.getElementById('photoBanner').remove();document.body.classList.remove('has-banner');sessionStorage.setItem('bannerDismissed','1')">&times;</button>
+        <a href="login.html">Share your wedding photos with us<br>Click here</a>
     </div>
 
     <!-- Snap 1: Hero -->
@@ -409,11 +387,6 @@
     </div>
 
     <script>
-        if (sessionStorage.getItem('bannerDismissed')) {
-            var b = document.getElementById('photoBanner');
-            if (b) b.remove();
-            document.body.classList.remove('has-banner');
-        }
 
         const o = new IntersectionObserver(e => {
             e.forEach(x => {
