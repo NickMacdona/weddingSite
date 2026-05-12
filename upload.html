@@ -348,6 +348,44 @@
             animation: ellipsis 1.2s steps(1) infinite;
         }
 
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(62, 62, 56, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal-card {
+            background: var(--ivory);
+            max-width: 400px;
+            width: 100%;
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            color: var(--text);
+            margin-bottom: 0.3em;
+        }
+
+        .modal-text {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
         @media (max-width: 400px) {
             .previews {
                 grid-template-columns: repeat(2, 1fr);
@@ -356,6 +394,15 @@
     </style>
 </head>
 <body>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-card">
+            <h2 class="modal-title">Before you upload</h2>
+            <div class="divider"></div>
+            <p class="modal-text">Please do not upload any photos of Evie to this album</p>
+            <button class="cta-btn" id="modalOk">OK</button>
+        </div>
+    </div>
 
     <div class="container">
         <h1>Share Your <em>Memories</em></h1>
@@ -398,6 +445,10 @@
     </div>
 
     <script>
+        document.getElementById('modalOk').addEventListener('click', () => {
+            document.getElementById('modal').classList.add('hidden');
+        });
+
         const API_BASE = 'https://wedding-photo-api.icysky-79d3c8ed.uksouth.azurecontainerapps.io';
         const MAX_FILE_SIZE = 20 * 1024 * 1024;
 
