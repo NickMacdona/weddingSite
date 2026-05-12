@@ -29,10 +29,8 @@ jobs:
       - name: Build and push image
         run: |
           TAG=${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          LATEST=${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
-          docker build -t $TAG -t $LATEST ./api
+          docker build -t $TAG ./api
           docker push $TAG
-          docker push $LATEST
 
       - name: Deploy to Container App
         run: |

@@ -98,6 +98,8 @@ var extensionMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCa
     ["image/webp"] = ".webp"
 };
 
+app.MapGet("/", () => Results.Ok());
+
 app.MapPost("/api/login", (HttpContext ctx, LoginRequest req) =>
 {
     var ip = ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown";
