@@ -1,0 +1,28 @@
+name: Build Gallery
+
+on:
+  push:
+    branches: [main]
+    paths: [gallery/**]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install and build
+        working-directory: gallery
+        run: npm ci && npm run build
+
+      - name: Commit built album
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add album/
+          git diff --staged --quiet || git commit -m "chore: rebuild album from gallery source" && git push

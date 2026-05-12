@@ -120,6 +120,50 @@ app.MapGet("/api/verify", (HttpContext ctx) =>
     return Results.Ok(new { valid = true, expiresAt });
 });
 
+app.MapGet("/api/photos", async (HttpContext ctx, BlobServiceClient blobService, TableClient table) =>
+{
+    var pageParam = ctx.Request.Query["page"].FirstOrDefault();
+    var pageSizeParam = ctx.Request.Query["pageSize"].FirstOrDefault();
+    var page = Math.Max(1, int.TryParse(pageParam, out var p) ? p : 1);
+    var pageSize = Math.Clamp(int.TryParse(pageSizeParam, out var ps) ? ps : 20, 1, 50);
+
+    var allPhotos = new List<TableEntity>();
+    await foreach (var entity in table.QueryAsync<TableEntity>(filter: "PartitionKey eq 'photo'"))
+    {
+        allPhotos.Add(entity);
+    }
+    allPhotos.Sort((a, b) =>
+    {
+        var aTime = a.GetDateTimeOffset("UploadedAt") ?? DateTimeOffset.MinValue;
+        var bTime = b.GetDateTimeOffset("UploadedAt") ?? DateTimeOffset.MinValue;
+        return aTime.CompareTo(bTime);
+    });
+
+    var totalCount = allPhotos.Count;
+    var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+    var items = allPhotos.Skip((page - 1) * pageSize).Take(pageSize);
+
+    var container = blobService.GetBlobContainerClient(blobContainerName);
+    var photos = new List<object>();
+
+    foreach (var entity in items)
+    {
+        var blobName = entity.GetString("BlobName");
+        var blob = container.GetBlobClient(blobName);
+        var sasUri = blob.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddHours(1));
+
+        photos.Add(new
+        {
+            id = entity.RowKey,
+            credit = entity.GetString("Credit") ?? "Anonymous",
+            uploadedAt = entity.GetDateTimeOffset("UploadedAt"),
+            url = sasUri.ToString()
+        });
+    }
+
+    return Results.Ok(new { photos, page, pageSize, totalCount, totalPages });
+});
+
 app.MapPost("/api/upload", async (HttpContext ctx, BlobServiceClient blobService, TableClient table) =>
 {
     if (!ExtractAndValidateToken(ctx, out _))
