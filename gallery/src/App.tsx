@@ -14,6 +14,16 @@ function getVisitorId(): string {
 
 const visitorId = getVisitorId()
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(window.innerWidth <= 768)
+  useEffect(() => {
+    const handler = () => setMobile(window.innerWidth <= 768)
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  }, [])
+  return mobile
+}
+
 interface Photo {
   id: string
   credit: string
@@ -76,6 +86,26 @@ const EndPage = forwardRef<HTMLDivElement>((_, ref) => (
   </div>
 ))
 
+function PhotoTile({ photo, onHeart }: PhotoPageProps) {
+  return (
+    <div style={styles.tile}>
+      <img src={photo.url} alt={`Photo by ${photo.credit}`} style={styles.tileImg} />
+      <div style={styles.tileOverlay}>
+        <span style={styles.creditText}>{photo.credit}</span>
+        <button
+          style={styles.heartBtn}
+          onClick={() => onHeart(photo.id)}
+        >
+          <span style={photo.hearted ? styles.heartFilled : styles.heartEmpty}>
+            {photo.hearted ? '♥' : '♡'}
+          </span>
+          {photo.hearts > 0 && <span style={styles.heartCount}>{photo.hearts}</span>}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [photos, setPhotos] = useState<Photo[]>([])
   const [loading, setLoading] = useState(true)
@@ -84,6 +114,7 @@ export default function App() {
   const [loadedApiPages, setLoadedApiPages] = useState(0)
   const [currentFlipPage, setCurrentFlipPage] = useState(0)
   const fetchingRef = useRef(false)
+  const isMobile = useIsMobile()
 
   const fetchPage = useCallback(async (page: number) => {
     if (fetchingRef.current) return
@@ -106,12 +137,18 @@ export default function App() {
   useEffect(() => { fetchPage(1) }, [fetchPage])
 
   useEffect(() => {
+    if (!isMobile) {
+      if (loadedApiPages < totalPages) {
+        fetchPage(loadedApiPages + 1)
+      }
+      return
+    }
     const photosOnLastLoadedPages = loadedApiPages * 20
     const threshold = photosOnLastLoadedPages - 5
     if (currentFlipPage >= threshold && loadedApiPages < totalPages) {
       fetchPage(loadedApiPages + 1)
     }
-  }, [currentFlipPage, loadedApiPages, totalPages, fetchPage])
+  }, [currentFlipPage, loadedApiPages, totalPages, fetchPage, isMobile])
 
   const handleHeart = useCallback(async (photoId: string) => {
     try {
@@ -155,6 +192,25 @@ export default function App() {
     )
   }
 
+  if (!isMobile) {
+    return (
+      <div style={styles.wrapper}>
+        <div style={styles.desktopHeader}>
+          <p style={styles.coverPrelude}>The Wedding of</p>
+          <h1 style={styles.coverTitle}>Mhairi <em style={styles.italic}>&</em> Barnaby</h1>
+          <div style={styles.divider} />
+          <p style={styles.coverSubtitle}>Our Photo Album</p>
+        </div>
+        <div style={styles.tileGrid}>
+          {photos.map(photo => (
+            <PhotoTile key={photo.id} photo={photo} onHeart={handleHeart} />
+          ))}
+        </div>
+        <a href="../index.html" style={styles.backLink}>&larr; Back to site</a>
+      </div>
+    )
+  }
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.bookContainer}>
@@ -191,7 +247,7 @@ export default function App() {
           <EndPage />
         </HTMLFlipBook>
       </div>
-      <p style={styles.hint}>Swipe or click the page edge to flip</p>
+      <p style={styles.hint}>Swipe to flip pages</p>
       <a href="../index.html" style={styles.backLink}>&larr; Back to site</a>
     </div>
   )
@@ -208,6 +264,10 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "'Lato', sans-serif",
     background: '#FAFAFA',
     color: '#3E3E38',
+  },
+  desktopHeader: {
+    textAlign: 'center' as const,
+    marginBottom: '2.5rem',
   },
   bookContainer: {
     width: '100%',
@@ -307,6 +367,40 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '0.8rem',
     fontWeight: 300,
     letterSpacing: '0.04em',
+  },
+  tileGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '1rem',
+    width: '100%',
+    maxWidth: '1000px',
+    marginBottom: '2rem',
+  },
+  tile: {
+    position: 'relative' as const,
+    aspectRatio: '1',
+    overflow: 'hidden',
+    borderRadius: '2px',
+    cursor: 'default',
+  },
+  tileImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover' as const,
+    display: 'block',
+    filter: 'saturate(0.85)',
+    transition: 'transform 0.5s ease, filter 0.5s ease',
+  },
+  tileOverlay: {
+    position: 'absolute' as const,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    background: 'linear-gradient(transparent, rgba(0,0,0,0.5))',
+    padding: '2rem 0.8rem 0.6rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   endText: {
     fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
