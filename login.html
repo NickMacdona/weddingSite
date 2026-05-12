@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share Your Photos — Mhairi & Barnaby</title>
+    <title>Photos — Mhairi & Barnaby</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
@@ -33,60 +33,77 @@
             min-height: 100svh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
         }
 
-        .card {
-            width: 100%;
-            max-width: 420px;
+        .split {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 2rem;
             text-align: center;
             opacity: 0;
             transform: translateY(14px);
-            animation: fadeUp 1s ease 0.15s forwards;
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .split-top {
+            background: var(--cream);
+            animation-delay: 0.1s;
+        }
+
+        .split-bottom {
+            background: var(--ivory);
+            animation-delay: 0.3s;
         }
 
         @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h1 {
+        h2 {
             font-family: 'Playfair Display', serif;
             font-weight: 400;
-            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-size: clamp(1.6rem, 4.5vw, 2.4rem);
             margin-bottom: 0.4em;
             color: var(--text);
         }
 
-        h1 em {
+        h2 em {
             font-style: italic;
             color: var(--pink);
         }
 
-        .subtitle {
+        .split-text {
             color: var(--text-light);
-            font-size: 1.05rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
             line-height: 1.8;
+            max-width: 380px;
         }
 
         .divider {
             width: 60px;
             height: 1px;
             background: var(--green);
-            margin: 1.5rem auto;
+            margin: 1rem auto 1.2rem;
         }
 
         .hint {
             font-size: 0.85rem;
             color: var(--warm-stone);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             letter-spacing: 0.04em;
         }
 
+        .form-wrap {
+            width: 100%;
+            max-width: 380px;
+        }
+
         .input-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         input[type="password"] {
@@ -112,6 +129,7 @@
         .cta-btn {
             display: inline-block;
             width: 100%;
+            max-width: 380px;
             padding: 1rem 2rem;
             border: 1px solid var(--green);
             background: transparent;
@@ -124,6 +142,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
             min-height: 48px;
+            text-decoration: none;
+            text-align: center;
+            line-height: 1.4;
         }
 
         .cta-btn:hover {
@@ -144,7 +165,7 @@
         .error {
             color: var(--pink-deep);
             font-size: 0.9rem;
-            margin-top: 1.2rem;
+            margin-top: 1rem;
             opacity: 0;
             transition: opacity 0.4s ease;
         }
@@ -154,7 +175,7 @@
         }
 
         .back-link {
-            margin-top: 2.5rem;
+            margin-top: 1.5rem;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -185,20 +206,28 @@
 </head>
 <body>
 
-    <div class="card">
-        <h1>Share Your <em>Photos</em></h1>
+    <div class="split split-top">
+        <h2>View the <em>Album</em></h2>
         <div class="divider"></div>
-        <p class="subtitle">Enter the password to continue</p>
+        <p class="split-text">Browse through the photos from the day</p>
+        <a href="album/" class="cta-btn">View Album</a>
+    </div>
+
+    <div class="split split-bottom">
+        <h2>Upload <em>Photos</em></h2>
+        <div class="divider"></div>
+        <p class="split-text">Share your photos from the day</p>
         <p class="hint">Hint: the last name of the married couple</p>
 
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Password" autocomplete="off" required>
-            </div>
-            <button type="submit" class="cta-btn" id="submitBtn">Continue</button>
-        </form>
-
-        <p class="error" id="error"></p>
+        <div class="form-wrap">
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password" autocomplete="off" required>
+                </div>
+                <button type="submit" class="cta-btn" id="submitBtn">Continue</button>
+            </form>
+            <p class="error" id="error"></p>
+        </div>
 
         <a href="index.html" class="back-link">&larr; Back to site</a>
     </div>
@@ -242,7 +271,7 @@
                     error.textContent = 'Too many attempts — please wait a moment';
                     error.classList.add('visible');
                 } else {
-                    error.textContent = "That’s not quite right — try again";
+                    error.textContent = "That's not quite right — try again";
                     error.classList.add('visible');
                     passwordInput.value = '';
                     passwordInput.focus();
