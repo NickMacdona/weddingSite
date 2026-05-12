@@ -375,7 +375,7 @@
                 <p>Tap to select photos</p>
                 <p class="small">JPEG, PNG, HEIC or WebP &middot; up to 20 MB each</p>
             </div>
-            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/heic,image/heif,image/webp" multiple>
+            <input type="file" id="fileInput" accept="image/*" multiple>
 
             <div class="previews" id="previews"></div>
 
@@ -454,9 +454,10 @@
             handleFiles(e.dataTransfer.files);
         });
 
-        fileInput.addEventListener('change', () => {
-            handleFiles(fileInput.files);
+        fileInput.addEventListener('change', async () => {
+            const files = Array.from(fileInput.files);
             fileInput.value = '';
+            await handleFiles(files);
         });
 
         async function handleFiles(fileList) {
