@@ -106,7 +106,70 @@ function PhotoTile({ photo, onHeart }: PhotoPageProps) {
   )
 }
 
+function LoginGate({ onAuthenticated }: { onAuthenticated: () => void }) {
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    if (!password.trim()) return
+    setSubmitting(true)
+    try {
+      const res = await fetch(`${API_BASE}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: password.trim() })
+      })
+      if (res.ok) {
+        const data = await res.json()
+        sessionStorage.setItem('uploadToken', data.token)
+        onAuthenticated()
+      } else if (res.status === 429) {
+        setError('Too many attempts — please wait a moment')
+      } else {
+        setError("That's not quite right — try again")
+        setPassword('')
+      }
+    } catch {
+      setError('Something went wrong — please try again')
+    }
+    setSubmitting(false)
+  }
+
+  return (
+    <div style={styles.wrapper}>
+      <div style={styles.loginBox}>
+        <p style={styles.coverPrelude}>The Wedding of</p>
+        <h1 style={styles.coverTitle}>Mhairi <em style={styles.italic}>&</em> Barnaby</h1>
+        <div style={styles.divider} />
+        <p style={styles.coverSubtitle}>Our Photo Album</p>
+        <div style={styles.divider} />
+        <p style={styles.loginHint}>Hint: the last name of the married couple</p>
+        <form onSubmit={handleSubmit} style={styles.loginForm}>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Password"
+            autoComplete="off"
+            style={styles.loginInput}
+          />
+          <button type="submit" disabled={submitting} style={styles.loginBtn}>
+            {submitting ? 'Checking...' : 'View Album'}
+          </button>
+        </form>
+        {error && <p style={styles.loginError}>{error}</p>}
+        <a href="../index.html" style={styles.backLink}>&larr; Back to site</a>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
+  const [authenticated, setAuthenticated] = useState(false)
+  const [authChecking, setAuthChecking] = useState(true)
   const [photos, setPhotos] = useState<Photo[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -115,6 +178,22 @@ export default function App() {
   const [currentFlipPage, setCurrentFlipPage] = useState(0)
   const fetchingRef = useRef(false)
   const isMobile = useIsMobile()
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('uploadToken')
+    if (!token) {
+      setAuthChecking(false)
+      return
+    }
+    fetch(`${API_BASE}/api/verify`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(res => {
+        if (res.ok) setAuthenticated(true)
+      })
+      .catch(() => {})
+      .finally(() => setAuthChecking(false))
+  }, [])
 
   const fetchPage = useCallback(async (page: number) => {
     if (fetchingRef.current) return
@@ -134,7 +213,7 @@ export default function App() {
     }
   }, [])
 
-  useEffect(() => { fetchPage(1) }, [fetchPage])
+  useEffect(() => { if (authenticated) fetchPage(1) }, [fetchPage, authenticated])
 
   useEffect(() => {
     if (!isMobile) {
@@ -166,6 +245,18 @@ export default function App() {
       ))
     } catch { /* ignore */ }
   }, [])
+
+  if (authChecking) {
+    return (
+      <div style={styles.wrapper}>
+        <p style={styles.loadingText}>Loading...</p>
+      </div>
+    )
+  }
+
+  if (!authenticated) {
+    return <LoginGate onAuthenticated={() => setAuthenticated(true)} />
+  }
 
   if (loading) {
     return (
@@ -447,5 +538,56 @@ const styles: Record<string, React.CSSProperties> = {
   emptyText: {
     color: '#5E5E56',
     fontSize: '1rem',
+  },
+  loginBox: {
+    textAlign: 'center' as const,
+    maxWidth: '380px',
+    width: '100%',
+  },
+  loginHint: {
+    fontSize: '0.85rem',
+    color: '#C4B9A0',
+    marginBottom: '1.2rem',
+    letterSpacing: '0.04em',
+  },
+  loginForm: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '1rem',
+    width: '100%',
+  },
+  loginInput: {
+    width: '100%',
+    padding: '0.9rem 1.2rem',
+    border: '1px solid #C4B9A0',
+    background: '#fff',
+    color: '#3E3E38',
+    fontFamily: "'Lato', sans-serif",
+    fontSize: '1rem',
+    fontWeight: 300,
+    letterSpacing: '0.06em',
+    textAlign: 'center' as const,
+    outline: 'none',
+    minHeight: '48px',
+    boxSizing: 'border-box' as const,
+  },
+  loginBtn: {
+    width: '100%',
+    padding: '1rem 2rem',
+    border: '1px solid #A8B5A2',
+    background: 'transparent',
+    color: '#3E3E38',
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.2em',
+    fontSize: '0.85rem',
+    fontFamily: "'Lato', sans-serif",
+    fontWeight: 400,
+    cursor: 'pointer',
+    minHeight: '48px',
+  },
+  loginError: {
+    color: '#B48885',
+    fontSize: '0.9rem',
+    marginTop: '1rem',
   },
 }
