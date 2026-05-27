@@ -175,7 +175,6 @@ export default function App() {
   const [error, setError] = useState<string | null>(null)
   const [totalPages, setTotalPages] = useState(0)
   const [loadedApiPages, setLoadedApiPages] = useState(0)
-  const [currentFlipPage, setCurrentFlipPage] = useState(0)
   const fetchingRef = useRef(false)
   const isMobile = useIsMobile()
 
@@ -215,19 +214,14 @@ export default function App() {
 
   useEffect(() => { if (authenticated) fetchPage(1) }, [fetchPage, authenticated])
 
+  // Eagerly load every page. The mobile flipbook must be built once with the
+  // complete, stable child list — appending pages to react-pageflip after it
+  // has mounted corrupts React's DOM reconciliation (insertBefore crash).
   useEffect(() => {
-    if (!isMobile) {
-      if (loadedApiPages < totalPages) {
-        fetchPage(loadedApiPages + 1)
-      }
-      return
-    }
-    const photosOnLastLoadedPages = loadedApiPages * 20
-    const threshold = photosOnLastLoadedPages - 5
-    if (currentFlipPage >= threshold && loadedApiPages < totalPages) {
+    if (authenticated && loadedApiPages > 0 && loadedApiPages < totalPages) {
       fetchPage(loadedApiPages + 1)
     }
-  }, [currentFlipPage, loadedApiPages, totalPages, fetchPage, isMobile])
+  }, [authenticated, loadedApiPages, totalPages, fetchPage])
 
   const handleHeart = useCallback(async (photoId: string) => {
     try {
@@ -302,6 +296,17 @@ export default function App() {
     )
   }
 
+  // Mobile flipbook: wait until every page is loaded before mounting, so
+  // react-pageflip is built once with a stable set of children.
+  const allLoaded = totalPages > 0 && loadedApiPages >= totalPages
+  if (!allLoaded) {
+    return (
+      <div style={styles.wrapper}>
+        <p style={styles.loadingText}>Loading album...</p>
+      </div>
+    )
+  }
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.bookContainer}>
@@ -329,7 +334,6 @@ export default function App() {
           clickEventForward={true}
           showPageCorners={true}
           disableFlipByClick={false}
-          onFlip={(e: { data: number }) => setCurrentFlipPage(e.data)}
         >
           <CoverPage />
           {photos.map(photo => (
